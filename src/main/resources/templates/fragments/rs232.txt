@@ -1,0 +1,260 @@
+// File: RS232Config.java
+package com.example.rs232config.model;
+
+public class RS232Config {
+    private int baudRate;
+    private String parity;
+    private String stopBits;
+    private String dataBits;
+    private String machineName;
+    private String machineId;
+    private String dbType;
+    private String dbUsername;
+    private String dbPassword;
+    private String protocolType;
+
+    // Getters and Setters
+    // (use Lombok @Data if preferred)
+}
+
+// File: RS232ConfigController.java
+package com.example.rs232config.controller;
+
+import com.example.rs232config.model.RS232Config;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+public class RS232ConfigController {
+
+    @GetMapping("/rs232-config")
+    public String showConfigForm(Model model) {
+        model.addAttribute("config", new RS232Config());
+        return "rs232Config"; // maps to rs232Config.html
+    }
+
+    @PostMapping("/rs232-config/save")
+    public String saveConfig(@ModelAttribute RS232Config config, Model model) {
+        // TODO: save to database or config service
+        System.out.println("Saved Config: " + config.getMachineName());
+
+        model.addAttribute("status", "Configuration saved successfully!");
+        return "rs232Config"; // return same page with success message
+    }
+}
+
+
+@Autowired
+private RS232ConfigRepository repo;
+
+@PostMapping("/rs232-config/save")
+public String saveConfig(@ModelAttribute RS232Config config, Model model) {
+    repo.save(config);
+    model.addAttribute("status", "Saved to DB!");
+    return "rs232Config";
+}
+
+
+
+
+
+
+ 1. Create SQL Server Table
+Run the following SQL script in SQL Server Management Studio 2014:
+
+sql
+Copy
+Edit
+CREATE TABLE RS232_Config (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    baud_rate INT,
+    parity VARCHAR(10),
+    stop_bits VARCHAR(10),
+    data_bits VARCHAR(10),
+    machine_name VARCHAR(100),
+    machine_id VARCHAR(50),
+    db_type VARCHAR(50),
+    db_username VARCHAR(50),
+    db_password VARCHAR(100),
+    protocol_type VARCHAR(50)
+);
+✅ 2. Spring Boot Configuration
+➤ application.properties
+properties
+Copy
+Edit
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=YourDatabaseName
+spring.datasource.username=your_sql_username
+spring.datasource.password=your_sql_password
+spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.SQLServer2012Dialect
+✅ Replace YourDatabaseName, your_sql_username, and your_sql_password accordingly.
+
+✅ 3. Maven Dependency for SQL Server
+Add this to pom.xml:
+
+xml
+Copy
+Edit
+<dependency>
+    <groupId>com.microsoft.sqlserver</groupId>
+    <artifactId>mssql-jdbc</artifactId>
+    <version>12.6.1.jre11</version> <!-- Use version matching your Java -->
+</dependency>
+✅ 4. Java Entity Class
+java
+Copy
+Edit
+package com.example.rs232config.model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "RS232_Config")
+public class RS232Config {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "baud_rate")
+    private int baudRate;
+
+    private String parity;
+    
+    @Column(name = "stop_bits")
+    private String stopBits;
+
+    @Column(name = "data_bits")
+    private String dataBits;
+
+    @Column(name = "machine_name")
+    private String machineName;
+
+    @Column(name = "machine_id")
+    private String machineId;
+
+    @Column(name = "db_type")
+    private String dbType;
+
+    @Column(name = "db_username")
+    private String dbUsername;
+
+    @Column(name = "db_password")
+    private String dbPassword;
+
+    @Column(name = "protocol_type")
+    private String protocolType;
+
+    // Getters and setters (or use @Data if using Lombok)
+}
+✅ 5. Repository Interface
+java
+Copy
+Edit
+package com.example.rs232config.repository;
+
+import com.example.rs232config.model.RS232Config;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RS232ConfigRepository extends JpaRepository<RS232Config, Integer> {
+}
+✅ 6. Controller Class
+java
+Copy
+Edit
+package com.example.rs232config.controller;
+
+import com.example.rs232config.model.RS232Config;
+import com.example.rs232config.repository.RS232ConfigRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+public class RS232ConfigController {
+
+    @Autowired
+    private RS232ConfigRepository repo;
+
+    @GetMapping("/rs232-config")
+    public String showConfigForm(Model model) {
+        model.addAttribute("config", new RS232Config());
+        return "rs232Config";
+    }
+
+    @PostMapping("/rs232-config/save")
+    public String saveConfig(@ModelAttribute RS232Config config, Model model) {
+        repo.save(config);
+        model.addAttribute("status", "Configuration saved to SQL Server ✅");
+        return "rs232Config";
+    }
+}
+✅ 7. Folder Structure
+css
+Copy
+Edit
+src
+└── main
+    ├── java
+    │   └── com.example.rs232config
+    │       ├── RS232ConfigApplication.java
+    │       ├── controller
+    │       │   └── RS232ConfigController.java
+    │       ├── model
+    │       │   └── RS232Config.java
+    │       └── repository
+    │           └── RS232ConfigRepository.java
+    └── resources
+        ├── templates
+        │   └── rs232Config.html
+        └── application.properties
+✅ 8. Run Your Spring Boot App
+Navigate to http://localhost:8080/rs232-config
+
+Fill out the form
+
+Click Save Configuration
+
+Check table RS232_Config in SQL Server — data should be saved.
+
+
+
+
+
+
+<h3 style="margin-top: 40px;">Saved RS232 Configurations</h3>
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <thead style="background-color: #f2f2f2;">
+        <tr>
+            <th>ID</th>
+            <th>Baud Rate</th>
+            <th>Parity</th>
+            <th>Stop Bits</th>
+            <th>Data Bits</th>
+            <th>Machine Name</th>
+            <th>Machine ID</th>
+            <th>DB Type</th>
+            <th>DB Username</th>
+            <th>Protocol Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${configs}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.baudRate}"></td>
+            <td th:text="${item.parity}"></td>
+            <td th:text="${item.stopBits}"></td>
+            <td th:text="${item.dataBits}"></td>
+            <td th:text="${item.machineName}"></td>
+            <td th:text="${item.machineId}"></td>
+            <td th:text="${item.dbType}"></td>
+            <td th:text="${item.dbUsername}"></td>
+            <td th:text="${item.protocolType}"></td>
+        </tr>
+    </tbody>
+</table>

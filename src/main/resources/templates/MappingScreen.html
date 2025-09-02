@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{MappingDetail}">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>MappingScreen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+   
+</head>
+<body>
+<div class="mapping-title-container">
+    <h2 class="mapping-title">Mapping Screen</h2>
+</div>
+
+
+<div class="container">
+
+<fieldset>
+
+    <form id="mappingform" action="#" method="post" onsubmit="return validateForm()">
+
+    <!-- ✅ Form Grid -->
+    <div class="form-grid">
+        <!-- Location -->
+       <div class="form-row">
+        <div class="form-group">
+         <div>   <label for="ddlocation">Location</label>
+    <select id="location" name="locationId">
+        <option value="">-- Select Location --</option>
+        <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.location}"></option>
+    </select>
+   <div id="error_msg" class="fade-message"></div>
+</div>
+         </div>
+
+        <!-- Machine -->
+        <div class="form-group">
+         <div>   
+          <label for="drp_Machine">Machine Name</label>
+       <select id="machine" name="machineId">
+        <option value="">-- Select Machine --</option>
+        <option th:each="mach : ${machines}" th:value="${mach.machineId}" th:text="${mach.machineName}"></option>
+    </select>
+    <div id="error_msg" class="fade-message"></div>
+        </div>
+          </div> </div>  </div>
+         <div class="search-box">
+       <input type="text" id="searchInput" placeholder="Search..." />
+<button type="button" id="searchBtn">Search</button>
+    </div>
+       
+            
+      <!-- ✅ Table -->
+    <!--      <div class="test-table-container">
+  <table id="machineTable">
+    <thead>
+      <tr>
+        <th>
+          <input type="checkbox" name="selectedTests" onclick="toggleAllTests(this)" />
+        </th>
+        <th>Test ID</th>
+        <th>Test Name</th>
+      </tr>
+    </thead>-->
+
+    <!-- Include dynamic rows from fragment -->
+ <!--    <tbody th:replace="fragments/machineTableFragment :: tableRows(${machineTests})"></tbody>
+  </table>
+</div>
+
+<div class="test-table-container">
+  <table id="parameterTable">
+    <thead>
+      <tr>
+        <th><input type="checkbox" name="selectedRows" onclick="toggleAll(this)" /></th>
+       
+        <th>LIS Param ID</th>
+        <th>LIS Param Name</th>
+        <th>Delete</th>
+      </tr>
+    </thead>-->
+
+    <!-- ✅ Inject rows dynamically using the fragment
+    <tbody th:replace="fragments/parameterTableFragment :: tableRows(${lisCodeList})"></tbody>
+  </table>
+</div>
+</div> -->
+     
+    
+    <!-- ✅ Numeric Fields -->
+<div class="form-row" style="margin-top:20px;">
+    <div class="form-numer">
+       <div> <label for="txt_round_off">Round Off</label>
+       <input type="text" id="txt_round_off" name="roundOff">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_multiply_by">Multiply By</label>
+       <input type="text" id="txt_multiply_by" name="multiplyBy">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_divided_by">Divided By</label>
+       <input type="text" id="txt_divided_by" name="dividedBy">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_result_format">Result Format</label>
+        <input type="text" id="txt_result_format" name="resultFormat">
+    </div></div>
+</div>
+
+<!-- ✅ Flags -->
+<div class="form-row" style="margin-top:10px;">
+ <div class="form-check">
+         <label for="txt_display_order">Display Order</label>
+      <input type="text" id="txt_display_order" name="displayOrder">
+    </div>
+    <div class="form-check">
+      <label><input type="checkbox" name="download"> Download</label>
+    </div>
+    
+    <div class="form-check">
+     <label><input type="checkbox" name="active"> Active</label>
+    </div>
+    <div class="form-check">
+     <div>   <label><input type="checkbox" name="calculated"> Calculated</label>
+    </div></div>
+</div>
+
+    <!-- ✅ Action Buttons -->
+    <div class="form-actions">
+        <button type="submit" name="_action" value="save">Save</button>
+         <button type="button" class="btn-white" onclick="goBack()">Back</button>
+        <button type="submit" name="_action" value="cancel">Cancel</button>
+    </div>
+
+    <!-- ✅ Message -->
+    <div id="error_msg" class="fade-message"></div>
+</form>
+</fieldset>
+</div>
+</body>
+</html>

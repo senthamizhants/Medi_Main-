@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+</head>
+<body>
+<div th:fragment="menu">
+    <div class="tab">
+        <div class="left-tabs">
+            <!-- Dashboard Dropdown -->
+            <div class="dropdown">
+                <button class="tabbutton" tabindex="0">
+                    <img src="/images/dashboard.png" alt="Dashboard Icon" class="menu-icon"> DashBoard
+                </button>
+                <div class="dropdown-content">
+                    <a th:href="@{/applicationStatus}">Application Status</a>
+                    <a th:href="@{/orders}">Sample Status</a>
+                    <a th:href="@{/ServiceStatus}">Service Status</a>
+                    <a th:href="@{/mappingDetail}">Mapping Details</a>
+                    <a th:href="@{/raw-data}">Data Trace</a>
+                    
+                </div>
+            </div>
+            <!-- Setup Dropdown -->
+            <div class="dropdown">
+                <button class="tabbutton" tabindex="0">
+                    <img src="/images/setup1.png" alt="Setup Icon" class="menu-icon"> SetUp
+                </button>
+                <div class="dropdown-content">
+                    <a th:href="@{/add-machine}">Add Machine</a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <img src="/images/Medi_Logo.png" alt="Medi Interface Logo" class="logo-img" />
+        </div>
+    </div>
+</div>
+</body>
+</html>

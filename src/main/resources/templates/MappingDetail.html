@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <link rel="icon" type="image/png" th:href="@{/images/Mainicons8.png}" />
+    <meta charset="UTF-8" />
+    <title>Mapping Details</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .main-wrapper {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+       background: linear-gradient(to bottom right,#bcd3c6, #ffffff);
+   /* background-color: #e0f0ff; */
+    width: 150px;
+    transition: width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    position: relative;
+}
+
+.sidebar.collapsed {
+    width: 30px;
+    padding: 10px 4px; /* reduce padding when collapsed */
+}
+
+        .toggle-btn {
+            background-color:#40916c;
+            color: white;
+            border: none;
+            padding: 4px 6px;
+            font-size: 14px;
+            border-radius: 4px;
+            align-self: flex-end;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .toggle-btn:hover{
+         box-shadow: 0 0 18px rgba(0,0,0,0.20);
+            /*box-shadow: 0 8px 32px rgba(64,145,108,0.17);*/
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .sidebar.collapsed .sidebar-title,
+        .sidebar.collapsed #menuContent {
+            display: none;
+        }
+
+        .sidebar-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 15px;
+            padding: 6px 4px;
+            cursor: pointer;
+        }
+
+        .toggle-icon {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+        .toggle-icon:hover{
+         box-shadow: 0 0 18px rgba(0,0,0,0.20);
+            /*box-shadow: 0 8px 32px rgba(64,145,108,0.17);*/
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .menu {
+            margin-top: 8px;
+        }
+
+        .menu.collapsed {
+            display: none;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            border-radius: 6px;
+            background: #fff;
+            margin-bottom: 6px;
+            transition: background 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: #bcd3c6;
+             box-shadow: 0 0 18px rgba(0,0,0,0.10);
+            /*box-shadow: 0 8px 32px rgba(64,145,108,0.17);*/
+            transform: translateY(-2px) scale(1.03);
+        }
+   
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #222;
+  transition: background-color .2s;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background-color: #bcd3c6; /* hover + active color */
+  border: 1px solid #a3c9a8;
+  font-weight:bold;
+}
+
+.menu-text {
+  margin-left: 10px;
+  white-space: nowrap;
+  
+}
+
+        .content-area {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            transition: margin-left 0.3s ease;
+            background:white;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div class="main-wrapper">
+
+    <!-- Sidebar -->
+
+    <div id="sidebar" class="sidebar">
+
+        <!-- ☰ Toggle Button -->
+        
+
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+
+
+        <!-- Mapping Details Title 
+
+        <div class="sidebar-title" onclick="toggleMenu()">
+
+            <span class="title-text">Mapping Details</span>
+
+            <span id="arrowIcon" class="toggle-icon">&#9654;</span> 
+
+        </div>-->
+        
+
+        <div class="sidebar-title">
+        
+
+    <span class="title-text">Mapping Details</span>
+
+</div>
+
+        <!-- Menu Items 
+
+        <div id="menuContent" class="menu collapsed">-->
+
+        <div id="menuContent" class="menu" th:with="path=${#httpServletRequest.requestURI}">
+  <a th:href="@{/machineCode}"
+     class="menu-item"
+     th:classappend="${path == '/machineCode'} ? ' active' : ''">
+    🖥️ <span class="menu-text">MachineCode</span>
+  </a>
+
+  <a th:href="@{/lisparameterCode}"
+     class="menu-item"
+     th:classappend="${path == '/lisparameterCode'} ? ' active' : ''">
+    🧪 <span class="menu-text">LISParameter</span>
+  </a>
+
+  <a th:href="@{/mappingScreen}"
+     class="menu-item"
+     th:classappend="${#strings.startsWith(path, '/mappingScreen')} ? ' active' : ''">
+    🔗 <span class="menu-text">MappingScreen</span>
+  </a>
+</div>
+
+    </div>
+
+ 
+
+    <!-- Main Content -->
+
+   <div class="content-area" id="mainContent" layout:fragment="content">
+
+  
+
+    </div>
+
+  
+
+</div>
+
+<script>
+
+	document.addEventListener('DOMContentLoaded', function () {
+  const path = window.location.pathname.replace(/\/+$/,''); // strip trailing slash
+  document.querySelectorAll('#menuContent .menu-item').forEach(a => {
+    const href = a.getAttribute('href')?.replace(/\/+$/,'') || '';
+    if (href === path) a.classList.add('active');
+  });
+});
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.toggle("collapsed");
+    }
+
+    function toggleMenu() {
+        const menu = document.getElementById("menuContent");
+        const arrow = document.getElementById("arrowIcon");
+
+        if (menu.classList.contains("collapsed")) {
+            menu.classList.remove("collapsed");
+            arrow.innerHTML = "&#9660;"; // down arrow
+        } else {
+            menu.classList.add("collapsed");
+            arrow.innerHTML = "&#9654;"; // right arrow
+        }
+    }
+</script>
+
+</body>
+</html>

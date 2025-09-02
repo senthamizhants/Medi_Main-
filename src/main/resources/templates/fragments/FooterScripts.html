@@ -1,0 +1,62 @@
+<!-- File: templates/fragments/FooterScripts.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+  <th:block th:fragment="scripts">
+    <script>
+      function toggleDropdown(id) { 
+        const dropdown = document.getElementById(id);
+        dropdown.classList.toggle("show");
+      }
+
+      function showContent(id) { 
+        document.querySelectorAll('.tabcontent').forEach(tab => {
+          tab.style.display = "none";
+        });
+
+        document.getElementById(id).style.display = "block";
+
+        document.querySelectorAll('.dropdown-content').forEach(menu => {
+          menu.classList.remove('show');
+        });
+      }
+
+      function cancelTab() { 
+        var contents = document.getElementsByClassName("tabcontent");
+        for (var i = 0; i < contents.length; i++) {
+          contents[i].style.display = "none";
+        }           
+      }
+
+      window.onclick = function(event) { 
+        if (!event.target.matches('.tabbutton')) {
+          document.querySelectorAll(".dropdown-content").forEach(drop => {
+            drop.classList.remove("show");
+          });
+        }
+      };
+
+      function showExtraSection() {
+        const section = document.getElementById('extraSection');
+        if (section) {
+          section.style.display = 'block';
+        }
+      }
+
+      function loadStep2() {
+        fetch("/config")
+          .then(response => response.text())
+          .then(html => {
+            const container = document.getElementById('nextPageSection');
+            if (container) {
+              container.innerHTML = html;
+              container.scrollIntoView({ behavior: 'smooth' });
+            }
+          })
+          .catch(err => console.error("Error loading config.html", err));
+      }
+    </script>
+  </th:block>
+</body>
+</html>

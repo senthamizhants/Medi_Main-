@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>MappingScreen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+    :root {
+        --label-width: 110px;
+    }
+      
+.container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 10px;
+        box-sizing: border-box;
+       background-color: #e6f0ff;
+       
+       
+    }
+    fieldset {
+   /* border: 1px solid #000;  ✅ Blue border */
+  padding: 2px 08px 2px 6px; /*   Top | Right | Bottom | Left */
+    border-radius: 4px;
+   width: 60%;                /* Reduce width to 90% of container */
+    max-width: 900px;      
+    box-sizing: border-box;
+     min-height: 550px; /* Add this to increase height */
+     height: 100%;       /* Cover container height */
+    margin: 0 -10px;
+    display: block; 
+    
+}
+    
+/* ✅ Form Layout */
+.form-grid {
+    display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px; /* space between columns */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  width: 180px; /* Reduce input width */
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+}
+
+.form-numer {
+    display: flex;
+    flex-direction: column;
+    width: 200px; /* Reduce total block width */
+}
+
+.form-numer label {
+    width: 120px;   /* Label width */
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.form-numer input,
+.form-numer select {
+    width: 80px;  /* Reduced input width */
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;  /* Align vertically */
+    gap: 6px; /* Reduce gap between checkbox and label */
+    margin-right: 20px; /* Spacing between groups */
+}
+
+.form-check input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+.form-check label {
+    margin: 0;
+    font-size: 14px;
+     font-weight: bold;
+}
+
+/* ✅ Table */
+.table-wrapper {
+    display: flex; /* Make tables appear side by side */
+    gap: 5px;     /* Space between the tables */
+    justify-content: flex-start; /* Align tables to the left */
+    align-items: flex-start; /* Align them to the top */
+    flex-wrap: wrap; /* If screen is small, wrap them */
+     margin: 0;              /* Remove default margin */
+    padding: 0; 
+    height: 300px;
+    padding-right: 50px;
+    max-width: 900px;     /* Set max width */
+    width: 100%;
+}
+    table {
+        width: 70%; /* Reduce table width */
+        margin: 0 auto;
+        
+        border-collapse: collapse;
+        min-width: 650px;
+    }
+    table th, table td {
+        border: 1px solid #ccc;
+        padding: 4px;
+       
+        text-align: center;
+}
+
+table th {
+ font-size: 14px;
+    background: #1D98DD;
+    color: #fff;
+}
+
+table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+
+
+/* ✅ Buttons */
+.form-actions {
+   display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 8px 16px;
+    margin: 5px;
+    background: #1D98DD;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-actions button:hover {
+    opacity: 0.9;
+}
+
+/* ✅ Fade Message */
+.fade-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-top: 10px;
+    text-align: center;
+    display: none;
+}
+.tbl-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+    margin: 2px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tbl-btn.edit {
+    background-color: #1D98DD;
+    color: #fff;
+}
+
+.tbl-btn.delete {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+.tbl-btn:hover {
+    opacity: 0.85;
+}
+
+/* Search Box */
+   .search-box {
+        margin: 15px 0;
+        display: flex;
+        justify-content: flex-start;
+        gap: 6px;
+        width: 100%;
+    }
+    .search-box input {
+        padding: 6px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        width:180px;
+        box-sizing: border-box;
+    }
+    .search-box button {
+        padding: 7px 12px;
+        background: #3399ff;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .search-box button:hover {
+        background: #2a80d4;
+    }
+
+.test-table-container {
+    flex: 1; /* Each table takes equal space */
+    min-width: 280px; /* Prevent collapsing */
+}
+#testTable {
+        width: 50%; /* Reduce table width */
+        margin: 0 auto;
+        margin-left: 10px;
+        border-collapse: collapse;
+        min-width: 200px;
+    }
+    #testTable th, #testTable td {
+        border: 1px solid #ccc;
+        padding: 4px;
+        text-align: center;
+}
+
+#testTable th {
+ font-size: 14px;
+    background: #1D98DD;
+    color: #fff;
+}
+
+#testTable tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+.mapping-title {
+    display: inline-block;
+  background-color: #4CAF50; /* Green background */ /* Blue background */
+    color: white;             /* White text */
+    padding: 6px 560px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.mapping-title-container {
+    text-align: center;
+    margin-bottom: 10px;
+    position: relative;
+}
+.back-button-container {
+    text-align: right;
+    width: auto;
+    margin: 5px 0 0 auto;  /* Aligns button to far right */
+}
+ .btn-white {
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #000;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background .3s, color .3s;
+        }
+        .btn-white:hover {
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+<fieldset>
+<div class="mapping-title-container">
+<h2 class="mapping-title">Mapping Screen</h2>
+</div>
+    <form id="mappingform" action="#" method="post" onsubmit="return validateForm()">
+
+    <!-- ✅ Form Grid -->
+    <div class="form-grid">
+        <!-- Location -->
+       <div class="form-row">
+        <div class="form-group">
+         <div>   <label for="ddlocation">Location</label>
+    <select id="ddlocation" name="locationId" onchange="this.form.submit()">
+    <option value="">-- Select --</option>
+    <option value="1">Chennai</option>
+    <option value="2">Bangalore</option>
+    <option value="3">Hyderabad</option>
+</select>
+   <div id="error_msg" class="fade-message"></div>
+</div>
+         </div>
+
+        <!-- Machine -->
+        <div class="form-group">
+         <div>   
+          <label for="drp_Machine">Machine Name</label>
+       <select id="drp_Machine" name="machineId" onchange="this.form.submit()">
+    <option value="">-- Select --</option>
+    <option value="101">Analyzer A</option>
+    <option value="102">Analyzer B</option>
+    <option value="103">X-Ray Machine</option>
+    <option value="104">MRI Scanner</option>
+</select><div id="error_msg" class="fade-message"></div>
+        </div>
+          </div> </div>  </div>
+         <div class="search-box">
+       <input type="text" id="searchInput" placeholder="Search..." />
+<button type="button" id="searchBtn">Search</button>
+    </div>
+       
+        
+         <!-- Machine Parameter ID -->
+<!--<div class="form-row">
+       
+        <div class="form-group">
+         <div>   <label for="txtmachineparaid">Machine Parameter ID </label>
+            <input type="text" id="txtmachineparaid" th:field="*{machineParameterId}"
+                   list="machineParamIdList" oninput="autoComplete(this, '/api/machineParam/id')"/>
+            <datalist id="machineParamIdList"></datalist>
+        </div>
+        </div>
+
+       
+        <div class="form-group">
+          <div>  <label for="txtmachineparaname">Machine Parameter Name </label>
+            <input type="text" id="txtmachineparaname" th:field="*{machineParameterName}"
+                   list="machineParamNameList" oninput="autoComplete(this, '/api/machineParam/name')"/>
+            <datalist id="machineParamNameList"></datalist>
+        </div>
+        </div>
+        </div>
+<div class="form-row">
+       
+        <div class="form-group">
+          <div>  <label for="txtTestid">LIS Parameter ID </label>
+            <input type="text" id="txtTestid" th:field="*{lisParameterId}"
+                   list="lisParamIdList" oninput="autoComplete(this, '/api/lisParam/id')"/>
+            <datalist id="lisParamIdList"></datalist>
+            </div>
+        </div>
+
+      
+        <div class="form-group">
+         <div>  <label for="txtTestName">LIS Parameter Name </label>
+            <input type="text" id="txtTestName" th:field="*{lisParameterName}"
+                   list="lisParamNameList" oninput="autoComplete(this, '/api/lisParam/name')"/>
+            <datalist id="lisParamNameList"></datalist>
+            </div> 
+        </div>
+    </div> -->
+  
+    <!-- ✅ Table -->
+         <div class="table-wrapper">
+         <div class="test-table-container">
+    <table id="testTable">
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="selectedTests" onclick="toggleAllTests(this)" /></th>
+                <th>Test ID</th>
+                <th>Test Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="checkbox" name="selectedTests" data-test-id="101" data-test-name="Blood Test"></td>
+                <td>101</td>
+                <td>Blood Test</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="selectedTests" data-test-id="102" data-test-name="Urine Test"></td>
+                <td>102</td>
+                <td>Urine Test</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="selectedTests" data-test-id="103" data-test-name="CRP"></td>
+                <td>103</td>
+                <td>CRP</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+ <div class="test-table-container">
+   <table id="machineTable">
+         <thead>
+            <tr>
+                <th><input type="checkbox" name="selectedRows" onclick="toggleAll(this)" /></th>
+                <th>Location ID</th>
+                <th>Machine Name</th>
+                <th>LIS Param ID</th>
+                <th>LIS Param Name</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+           <!--  <tr th:each="row, idx : ${mappingRows}">
+                <td>
+                    <input type="checkbox" name="selectedRows" th:value="${idx.index}" th:checked="${row.selected}"/>
+                </td>
+                <td th:text="${row.machineParameterId}"></td>
+                <td th:text="${row.machineParameterName}"></td>
+                <td th:text="${row.lisParameterId}"></td>
+                <td th:text="${row.lisParameterName}"></td>
+
+                <!-- ✅ Buttons for Edit/Delete -->
+              <!--    <td>
+                    <button type="button" class="tbl-btn edit"
+                            th:data-index="${idx.index}"
+                            th:data-mpid="${row.machineParameterId}"
+                            th:data-mpname="${row.machineParameterName}"
+                            th:data-lpid="${row.lisParameterId}"
+                            th:data-lpname="${row.lisParameterName}"
+                            onclick="editRow(this)">
+                        Edit
+                    </button></td>-->
+                    
+                  <!--    <td> <button type="button" class="tbl-btn delete"
+                            th:data-index="${idx.index}"
+                            onclick="deleteRow(this)">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(mappingRows)}">
+                <td colspan="6">No Machine Mapped...</td>
+            </tr> -->
+            <tr>
+                <td><input type="checkbox" name="selectedRows"></td>
+                <td>chennai</td>
+                <td>Hematology Analyzer</td>
+                <td>101</td>
+                <td>Hemoglobin</td>
+                <td>
+                    <button type="button" class="tbl-btn delete" onclick="deleteRow(this)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="selectedRows"></td>
+                <td>Delhi</td>
+                <td>Biochemistry Analyzer</td>
+                <td>102</td>
+                <td>Glucose</td>
+                <td>
+                    <button type="button" class="tbl-btn delete" onclick="deleteRow(this)">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="selectedRows"></td>
+                <td>Madurai</td>
+                <td>Immunoassay Machine</td>
+                <td>103</td>
+                <td>TSH</td>
+                <td>
+                    <button type="button" class="tbl-btn delete" onclick="deleteRow(this)">Delete</button>
+                </td>
+            </tr>
+            
+            
+        </tbody>
+    </table></div>
+</div>
+    
+    
+    
+    <!-- ✅ Numeric Fields -->
+<div class="form-row" style="margin-top:20px;">
+    <div class="form-numer">
+       <div> <label for="txt_round_off">Round Off</label>
+       <input type="text" id="txt_round_off" name="roundOff">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_multiply_by">Multiply By</label>
+       <input type="text" id="txt_multiply_by" name="multiplyBy">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_divided_by">Divided By</label>
+       <input type="text" id="txt_divided_by" name="dividedBy">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_result_format">Result Format</label>
+        <input type="text" id="txt_result_format" name="resultFormat">
+    </div></div>
+</div>
+
+<!-- ✅ Flags -->
+<div class="form-row" style="margin-top:10px;">
+ <div class="form-check">
+         <label for="txt_display_order">Display Order</label>
+      <input type="text" id="txt_display_order" name="displayOrder">
+    </div>
+    <div class="form-check">
+      <label><input type="checkbox" name="download"> Download</label>
+    </div>
+    
+    <div class="form-check">
+     <label><input type="checkbox" name="active"> Active</label>
+    </div>
+    <div class="form-check">
+     <div>   <label><input type="checkbox" name="calculated"> Calculated</label>
+    </div></div>
+</div>
+
+    <!-- ✅ Action Buttons -->
+    <div class="form-actions">
+        <button type="submit" name="_action" value="save">Save</button>
+         <button type="button" class="btn-white" onclick="goBack()">Back</button>
+        <button type="submit" name="_action" value="cancel">Cancel</button>
+    </div>
+
+    <!-- ✅ Message -->
+    <div id="error_msg" class="fade-message"></div>
+</form>
+</fieldset>
+</div>
+<script>
+//✅ Toggle all checkboxes for machineTable
+function toggleAll(master) {
+    document.querySelectorAll('#machineTable input[name="selectedRows"]').forEach(cb => {
+        cb.checked = master.checked;
+    });
+}
+// ✅ Toggle all checkboxes for testTable
+function toggleAllTests(master) {
+    document.querySelectorAll('#testTable input[name="selectedTests"]').forEach(cb => cb.checked = master.checked);
+}
+   /* function editRow(btn) {
+        const data = btn.dataset;
+
+        // Populate form fields from row values
+        document.getElementById('txtmachineparaid').value = data.mpid || '';
+        document.getElementById('txtmachineparaname').value = data.mpname || '';
+        document.getElementById('txtTestid').value = data.lpid || '';
+        document.getElementById('txtTestName').value = data.lpname || '';
+
+        // Scroll to form
+        window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    }*/
+
+    function deleteRow(btn) {
+        if (confirm("Are you sure you want to delete this row?")) {
+            btn.closest('tr').remove();
+        }
+    }
+    
+ // ✅ Search in testTable
+    function searchTestTable() {
+        const filter = document.getElementById("testSearchInput").value.toUpperCase();
+        const tableBody = document.getElementById("testTable").querySelector('tbody');
+        const trs = tableBody.querySelectorAll("tr");
+
+        trs.forEach(row => {
+            const tds = row.querySelectorAll("td");
+            let found = false;
+            for (let j = 1; j < tds.length; j++) {
+                if (tds[j].innerText.toUpperCase().includes(filter)) {
+                    found = true;
+                    break;
+                }
+            }
+            row.style.display = found ? "" : "none";
+        });
+    }
+
+    function searchTable() {
+        const filter = document.getElementById("searchInput").value.toUpperCase();
+        const table = document.getElementById("machineTable");
+        const rows = table.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            const tds = row.querySelectorAll("td");
+            let match = false;
+            for (let i = 1; i < tds.length - 1; i++) {
+                if (tds[i].innerText.toUpperCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+            row.style.display = match ? "" : "none";
+        });
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', searchTable);
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            searchTable();
+        }
+    });
+
+    // If testSearchInput/testSearchBtn exist
+    if (document.getElementById('testSearchBtn')) {
+        document.getElementById('testSearchBtn').addEventListener('click', searchTestTable);
+        document.getElementById('testSearchInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchTestTable();
+            }
+        });
+    }
+
+    
+    function allowOnlyOneCheckbox(tableId, checkboxName) {
+        const checkboxes = document.querySelectorAll(`#${tableId} input[name="${checkboxName}"]`);
+        
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', function () {
+                if (this.checked) {
+                    checkboxes.forEach(other => {
+                        if (other !== this) {
+                            other.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Initialize single-selection for testTable
+    allowOnlyOneCheckbox('testTable', 'selectedTests');
+    allowOnlyOneCheckbox('machineTable', 'selectedRows');
+    
+    function goBack() {
+        window.location.href = "/home";  // your home page URL
+    }
+</script>
+
+</body>
+</html>

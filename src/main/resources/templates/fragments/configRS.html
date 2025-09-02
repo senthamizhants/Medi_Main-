@@ -1,0 +1,142 @@
+<div th:fragment="configRSFormFragment">
+<link rel="stylesheet" th:href="@{/css/configRS.css}" />
+<div class="config-container">
+  <h2>RS232 Configuration</h2>
+
+  <form id="rs232Form" th:action="@{/saveRs232Config}" th:object="${rs232}" method="post">
+       
+      <div class="form-row">
+        <div class="form-group">
+          <label>Machine ID</label>
+          <input type="text" th:field="*{machineId}" />
+        </div>
+        <div class="form-group">
+  <label>Machine Name</label>
+  <input type="text" name="machineName" th:value="${machineName}" readonly />
+</div>
+      </div>
+
+      <!-- Baud & Parity -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Baud Rate</label>
+          <select th:field="*{baudRate}">
+            <option value="9600">9600</option>
+            <option value="4800">4800</option>
+            <option value="19200">19200</option>
+            <option value="115200">115200</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Parity</label>
+          <select th:field="*{parity}">
+            <option value="None">None</option>
+            <option value="Odd">Odd</option>
+            <option value="Even">Even</option>
+            <option value="Mark">Mark</option>
+            <option value="Space">Space</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Stop Bits & Data Bits -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Stop Bits</label>
+          <select th:field="*{stopBits}">
+            <option value="ONE">ONE</option>
+            <option value="TWO">TWO</option>
+            <option value="NONE">NONE</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Data Bits</label>
+          <select th:field="*{dataBits}">
+ 			<option value="8">8</option>
+            <option value="4">4</option>
+                 
+           
+          </select>
+        </div>
+      </div>
+
+      <!-- Method & Protocol -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Method Name</label>
+        <!--    <input type="text" th:field="*{methodName}" /> -->
+        </div>
+        <div class="form-group">
+          <label>Protocol Type</label>
+          <select th:field="*{protocolType}">
+            <option value="HL7">HL7</option>
+            <option value="ASTM">ASTM</option>
+            <option value="KERMIT">KERMIT</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- DB Settings -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>DB Type</label>
+          <select th:field="*{dbType}">
+            <option value="SQL Server">SQL Server</option>
+            <option value="MySQL">MySQL</option>
+            <option value="Oracle">Oracle</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>DB Credentials</label>
+       <!--     <input type="text" th:field="*{dbCredentials}" /> -->
+        </div>
+      </div>
+
+      <!-- COM Port & XON/OFF -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="portSelect">COM PORT</label>
+          <select th:field="*{port}" id="portSelect">
+            <option value=""hidden selected>Select Port</option>
+            <option th:each="port : ${ports}" th:value="${port}" th:text="${port}"></option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>X-ON/OFF</label>
+          <select th:field="*{xonoff}">
+            <option value="None">None</option>
+            <option value="On">On</option>
+            <option value="Off">Off</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Class Name & Test -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>ClassName</label>
+          <select th:field="*{classname}">
+            <option value="None"hidden selected>None</option>
+            <option value="class1">class1</option>
+            <option value="class2">class2</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div style="display: flex; gap: 8px;">
+           <button type="button" onclick="checkStatus()">Test Connection</button>
+    <input id="statusBox" type="text" readonly 
+           placeholder="Status..." 
+           style="margin-left:10px;margin-top:5px; width: 220px; height: 25px;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <div class="actions">
+        <button type="submit" class="save-btn" id="rs232SaveBtn">Save</button>
+      </div>
+
+    </form>
+  </div>
+  <script th:src="@{/js/configRS.js}" defer></script>
+</div>

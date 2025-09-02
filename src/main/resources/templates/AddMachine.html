@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+
+    <link rel="icon" type="image/png" th:href="@{/images/Mainicons8.png}" />
+
+    <meta charset="UTF-8">
+
+    <title>Add Machine</title>
+
+   
+
+    <style>
+
+        html, body {
+
+    height: 100%;
+
+    margin: 0;
+
+    padding: 0;
+
+    font-family: Arial, sans-serif;
+
+    background-color: #e6f0ff;
+
+   
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.menu-buttons {
+    display: flex;
+    gap: 8px;
+     align-items: center;
+    margin-bottom:6px;              /* spacing between Home & Back buttons */
+}
+
+.icon-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    background-color: #40916c;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    margin-top:10px;
+    
+}
+.icon-btn:hover {
+    background-color: #367f5d;
+}
+
+.page-title {
+            
+            background-color: #40916c;
+            
+            color: white;
+            padding: 6px 500px;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 1px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+             white-space: nowrap;  
+        }
+        .page-title-container {
+    text-align: left;   
+    margin-bottom: 05px;
+    position: relative;
+    padding-left: 10px; 
+    padding-right: 10px;
+}
+
+        		
+
+	form {
+
+    background-color: #fff;
+
+    padding: 2px 10px 2px 10px; /* Top | Right | Bottom | Left */
+
+
+
+    border-radius: 10px;
+
+    border: 1px solid #ccc;
+
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+   
+
+    width: 100%;
+
+    height: 100%;
+
+
+
+    max-width: none;
+
+    
+
+    display: flex;
+
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+}      
+
+
+
+        label {
+
+            display: block;
+
+            margin-top: 10px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        select {
+
+            width: 100%;
+
+            padding: 10px;
+
+            margin-top: 5px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 5px;
+
+        }
+
+
+
+        button {
+
+            margin-top: 20px;
+
+            padding: 10px 20px;
+
+            background-color: #3399ff;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+        }
+
+
+
+        button:hover {
+
+            background-color: #2a80d4;
+
+        }
+
+
+
+        .button-group {
+
+    display: flex;
+
+    gap: 10px; 
+
+    justify-content: center; 
+
+    }
+
+       	
+
+  		.form-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 5px;
+
+    margin-left:50px;
+
+    margin-bottom: 05px;
+
+     margin-right:50px;
+
+}
+
+
+
+.form-field {
+
+    flex: 1;
+
+}
+
+
+
+.form-field label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    
+
+}
+
+
+
+.form-field select {
+
+    width: 180px; 
+
+    max-width: 100%;
+
+    padding: 5px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 5px;
+
+}
+
+  	.form-field-inline {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px; 
+
+}
+
+
+
+.form-field-inline label {
+
+    margin: 0;
+
+    font-size: 13px;
+
+    white-space: nowrap; 
+
+}
+
+
+
+.form-field-inline select {
+
+    width: auto;      
+
+    min-width: 180px;  
+
+    max-width: 100%;   
+
+    padding: 5px;
+
+    text-align: center;          
+
+    text-align-last: center;   
+
+    font-size: 12px;
+
+}
+
+.container {
+
+    background: transparent !important;
+
+    flex: 1;
+
+    width: 100%;
+
+    height: 100%;
+
+    padding: 0px;
+
+    align-items: center;
+
+  /*  box-sizing: border-box; */
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch; 
+
+}
+
+   #nextPageSection {
+
+    background-color: #fff;
+
+    padding: 10px;
+
+    border-radius: 10px;
+
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+}
+
+iframe {
+
+   background: transparent !important;
+
+   align-items: center;
+
+   margin-left:5%;
+
+    border: none;
+
+    border-radius: 5px;
+
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+
+    
+
+}	
+
+
+
+.title-form {
+
+   text-align: left;
+
+    font-size: 18px;
+
+    border-bottom: 2px solid #000;
+
+    margin-bottom: 15px;
+
+    padding-bottom: 8px;
+
+}
+
+.title-form h1 {
+
+    margin: 0;
+
+}
+
+
+
+.back-button-container {
+
+    text-align: right;
+
+    width: auto;
+
+    margin: 5px 0 0 auto;  
+
+}
+
+ .btn-white {
+
+            background-color: #fff;
+
+            color: #000;
+
+            border: 1px solid #000;
+
+            padding: 8px 16px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            transition: background .3s, color .3s;
+
+        }
+
+        .btn-white:hover {
+
+            background-color: #000;
+
+            color: #fff;
+
+        }
+
+        
+
+        select:disabled {
+
+    background-color: #f2f2f2;
+
+    color: #aaa;
+
+    cursor: not-allowed;
+
+}
+
+
+
+.content-area {
+
+            flex-grow: 1;
+
+                       
+
+            transition: margin-left 0.3s ease;
+
+          /*  background: linear-gradient(to bottom right, #d9ecff, #f9fbff);
+
+           overflow-y: auto;
+
+           padding: 05px;
+
+          */
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <div class="container">   
+
+   
+
+<form th:action="@{/add-machine}" th:object="${machine}" method="post" onsubmit="return prepareConfigData()">
+
+<div class="page-title-container">
+    <!-- Buttons aligned left -->
+    <div class="menu-buttons">
+        <!-- Home Button -->
+        <a th:href="@{/home}" class="icon-btn" title="Home">
+            <img th:src="@{/images/home.png}" alt="Home" width="20" height="20">
+        </a>
+
+        <!-- Back Button -->
+        <button type="button" class="icon-btn" onclick="history.back()" title="Back">
+            <img th:src="@{/images/backButton.png}" alt="Back" width="20" height="20">
+        </button>
+         <h2 class="page-title">Add New Machine</h2>
+    </div>
+
+    <!-- Title centered -->
+   
+</div>
+
+  <div class="form-row">
+
+        <div class="form-field-inline">
+
+           <label for="machineName">Machine Name:</label>
+
+            <input type="text" th:field="*{machineName}" id="machineName" required />
+
+         <!--    <select id="machineName" name="machineName" th:field="*{machineName}" required>
+
+    <option value="" selected>--Select Machine--</option>
+
+    <option th:each="machine : ${machineList}"
+
+            th:value="${machine.machineName}"
+
+            th:text="${machine.machineName}">
+
+    </option>
+
+</select> -->
+
+        </div>
+
+
+
+        <div class="form-field-inline">
+
+            <label for="communication">Communication Type:</label>
+
+            <select th:field="*{communication}" id="communication" required>
+
+                <option value=""hidden selected>-- Select Communication --</option>
+
+                <option value="UniDirection">UniDirection</option>
+
+                <option value="BiDirection">BiDirection</option>
+
+            </select>
+
+        </div>
+
+   
+
+        <div class="form-field-inline">
+
+            <label for="connectivity">Connectivity Type:</label>                              
+
+            
+
+            <select th:field="*{connectivity}" id="connectivity" required>
+
+                <option value=""hidden selected>-- Select Connectivity --</option>
+
+                <option value="TCP/IP">TCP/IP</option>
+
+                <option value="RS232">RS232</option>
+
+                <option value="sharepath">SharePath</option>
+
+            </select>
+
+        </div>
+
+         </div>
+
+       <!--   <div class="back-button-container">
+
+    <button type="button" class="btn-white" onclick="goBack()">Back</button>
+
+</div>--> 
+
+                            
+
+       <div class="content-area" id="mainContent" layout:fragment="content">
+
+       <div id="configContainer"></div>
+
+      
+
+    </div>
+
+     <!--    <div class="actions">
+
+        <button type="submit" class="save-btn">Save Configuration</button>
+
+      </div>
+
+         This section will appear after clicking Add 
+
+       <div id="nextPageSection" style="margin-top: 05px;"></div>
+
+<div style="display:none;">
+
+    <div id="configRSFragment" th:replace="fragments/configRS :: configRSFormFragment"></div>
+
+</div>-->
+
+       </form>      
+
+    </div>    
+
+  
+
+  <!--   document.addEventListener("DOMContentLoaded", function () {
+
+	    const machineDropdown = document.getElementById("machineName");
+
+	    const communicationDropdown = document.getElementById("communication");
+
+	    const connectivityDropdown = document.getElementById("connectivity");
+
+	    const targetDiv = document.getElementById("nextPageSection");
+
+
+
+	    
+
+	    connectivityDropdown.disabled = true;
+
+
+
+	    function checkSelections() {
+
+	        if (machineDropdown.value && communicationDropdown.value) {
+
+	            connectivityDropdown.disabled = false;
+
+	        } else {
+
+	            connectivityDropdown.disabled = true;
+
+	            connectivityDropdown.value = ""; 
+
+	            targetDiv.innerHTML = "";        
+
+	        }
+
+	    }
+
+
+
+	    machineDropdown.addEventListener("change", checkSelections);
+
+	    communicationDropdown.addEventListener("change", checkSelections);
+
+
+
+	    connectivityDropdown.addEventListener("change", function () {
+
+	        let src = "";
+
+	        if (this.value === "tcpip") {
+
+	            src = "/loginapp/config"; 
+
+	        } else if (this.value === "rs232") {
+
+	            src = "/configRS"; 
+
+	        }
+
+
+
+	        if (src) {
+
+	            targetDiv.innerHTML = `
+
+	                <iframe src="${src}" scrolling="no" onload="resizeIframe(this)"></iframe>
+
+	            `;
+
+	            targetDiv.scrollIntoView({ behavior: "smooth" });
+
+	        }
+
+	    }); /* <iframe src="http://localhost:8098/config" */
+
+
+
+/* function validateForm() {
+
+    const machine = document.getElementById("machineName").value;
+
+    const communication = document.getElementById("communication").value;
+
+    const connectivity = document.getElementById("connectivity").value;
+
+
+
+    if (!machine || !communication || !connectivity) {
+
+        alert("Please select Machine Name, Communication Type, and Connectivity Type.");
+
+        return false;
+
+    }
+
+
+
+    return true;
+
+}
+
+ -->
+
+
+
+ <script>
+
+	    document.addEventListener("DOMContentLoaded", function () {
+
+	    	  const machineInput = document.getElementById("machineName");
+
+	        const communication = document.getElementById("communication");
+
+	        const connectivity = document.getElementById("connectivity");
+
+	        const configContainer = document.getElementById("configContainer");
+
+
+
+	        const machineName = machineInput.value.trim();
+
+	        communication.disabled = true;
+
+	        connectivity.disabled = true;
+
+	        
+
+	        machineInput.addEventListener('input', function () {
+
+	            if (machineInput.value.trim() !== "") {
+
+	                communication.disabled = false;
+
+	            } else {
+
+	                communication.disabled = true;
+
+	                connectivity.disabled = true;
+
+	                connectivity.value = "";
+
+	                configContainer.innerHTML = "";
+
+	            }
+
+	        });
+
+
+
+	        communication.addEventListener('change', function () {
+
+	            if (communication.value) {
+
+	                connectivity.disabled = false;
+
+	            } else {
+
+	                connectivity.disabled = true;
+
+	                connectivity.value = "";
+
+	                configContainer.innerHTML = "";
+
+	            }
+
+	        });
+
+	      
+
+	        connectivity.addEventListener("change", function () {
+
+	            const machineName = machineInput.value.trim();
+
+	            if (!machineName) {
+
+	                alert("Please enter Machine Name before selecting connectivity.");
+
+	                connectivity.value = "";
+
+	                return;
+
+	            }
+
+	            
+
+	             if (this.value === "RS232") {
+
+	                fetch(`/configRS?machineName=${encodeURIComponent(machineName)}`)
+
+	                    .then(r => r.text())
+
+	                    .then(html => {
+
+	                        configContainer.innerHTML = html;
+
+
+
+	                        // Set machineName in loaded fragment (redundant but safe)
+
+	                        const rsMachineInput = configContainer.querySelector('input[name="machineName"]');
+
+	                        if (rsMachineInput) {
+
+	                            rsMachineInput.value = machineName;
+
+	                            rsMachineInput.readOnly = true;
+
+	                        }
+
+	                    })
+
+	                    .catch(err => console.error("Error loading RS232 config:", err));
+
+	            }
+
+	           else if (this.value === "TCP/IP") {
+
+	                // Embed Project B in iframe over LAN
+
+	                const projectBLANIP = "192.168.0.31"; // <-- replace with your PC's LAN IP
+
+	                configContainer.innerHTML = `
+
+	                    <div style="display:flex; justify-content:center; margin-top:20px;">
+
+	                        <iframe src="http://${projectBLANIP}:9090/"
+
+	                                width="90%" height="550px" frameborder="0"
+
+	                                style="border:none; border-radius:5px; box-shadow:0 0 5px rgba(0,0,0,0.1);">
+
+	                        </iframe>
+
+	                    </div>`;
+
+	            }
+
+	            
+
+	            /* else if (this.value === "TCP/IP") {
+
+	            	fetch(`/tcpip-config?machineName=${encodeURIComponent(machineName)}`)
+
+	                .then(r => r.text())
+
+	                .then(html => {
+
+	                    configContainer.innerHTML = html;
+
+	                })
+
+	                .catch(err => {
+
+	                    console.error("Error loading TCP/IP config:", err);
+
+	                    configContainer.innerHTML = `<p style="color:red;">Failed to load TCP/IP config.</p>`;
+
+	                });
+
+	            } */else {
+
+	                configContainer.innerHTML = "";
+
+	            }
+
+	        });
+
+	    });
+
+	
+
+	    
+
+	    
+
+	    function prepareConfigData() {
+
+	        const configContainer = document.getElementById("configContainer");
+
+	        const hiddenInput = document.getElementById("configData");
+
+
+
+	        // Collect all input/select values from the config container
+
+	        const inputs = configContainer.querySelectorAll("input, select, textarea");
+
+	        const configObj = {};
+
+
+
+	        inputs.forEach(input => {
+
+	            if (input.name) {
+
+	                configObj[input.name] = input.value;
+
+	            }
+
+	        });
+
+
+
+	        // Serialize as JSON and store in hidden field
+
+	        hiddenInput.value = JSON.stringify(configObj);
+
+
+
+	        // Optional: validate main form fields
+
+	         const machineInput = document.getElementById("machineName").value;
+
+	       // const machineName = document.querySelector('input[name="machineName"]').value;
+
+	        const communication = document.getElementById("communication").value;
+
+	        const connectivity = document.getElementById("connectivity").value;
+
+
+
+	        if (!machineInput || !communication || !connectivity) {
+
+	            alert("Please enter all required fields.");
+
+	            return false;
+
+	        }
+
+
+
+	        return true; 
+
+	    }
+
+
+
+function goBack() {
+
+    window.location.href = "/home";  
+
+}
+
+		
+
+</script>      
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+<!-- MachineCode.html -->
+<div th:fragment="machineCodeFormFragment">
+
+
+  <div class="container">
+
+		<div class="page-title-container">
+    <!-- Buttons aligned left -->
+    <div class="menu-buttons">
+        <!-- Home Button -->
+        <a th:href="@{/home}" class="icon-btn" title="Home">
+            <img th:src="@{/images/home.png}" alt="Home" width="20" height="20">
+        </a>
+
+        <!-- Back Button -->
+        <button type="button" class="icon-btn" onclick="history.back()" title="Back">
+            <img th:src="@{/images/backButton.png}" alt="Back" width="20" height="20">
+        </button>
+    </div>
+
+    <!-- Title centered -->
+    <h2 class="page-title">Machine Code</h2>
+</div>
+    <fieldset>
+      <form th:action="@{/savemachineCode}" method="post" th:object="${machineParam}" id="machinecodeform">
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" name="_action" id="formAction" value="save" />
+        <input type="hidden" name="page" id="currentPageInput" th:value="${currentPage}" />
+
+<div class="form-row">
+  <div class="form-field">
+    <label for="location">Location</label>
+    <select id="locationDropdown" th:field="*{locationId}" required>
+      <option value="" selected>-- Select Location --</option>
+      <option th:each="loc : ${locations}"
+              th:value="${loc.id}"
+              th:text="${loc.location}">
+      </option>
+    </select>
+</div>
+  
+        <!-- Location and Machine dropdowns 
+        <div class="form-row">
+          <div class="form-field">
+            <label for="location">Location</label>
+            <select th:field="*{locationId}" required>
+              <option value=""th:selected="${locationId == null}" disabled selected hidden>-- Select Location --</option>
+              <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.location}"></option>
+            </select>
+          </div>-->
+
+          <div class="form-field">
+  <label for="machinename">Machine Name</label>
+  <select id="machineDropdown" th:field="*{machineId}" required>
+    <option value="" selected>-- Select Machine --</option>
+    <option th:each="mach : ${machines}" 
+            th:value="${mach.machineId}" 
+            th:text="${mach.machineName}">
+    </option>
+  </select>
+</div>
+        </div>
+
+
+        <!-- Test ID and Test Name -->
+        <div class="form-row">
+          <div class="form-field">
+            <label for="testid">Test ID</label>
+            <input type="text" th:field="*{testId}" placeholder="Enter Test ID" required />
+          </div>
+
+          <div class="form-field">
+            <label for="testname">Test Name</label>
+            <input type="text" th:field="*{testName}" placeholder="Enter Test Name" required />
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="form-actions">
+          <button type="submit" onclick="setFormAction('save')" id="saveButton">Save</button>
+          <button type="button" onclick="clearForm()">Clear</button>
+          <button type="submit" onclick="setFormAction('update')" id="updateButton" style="display: none;">Update</button>
+        <!--   <button type="button" class="btn-white" onclick="goBack()">Back</button>-->
+        <!-- Success Message -->
+              <div th:if="${message}" id="flashMessage" 
+         	style="padding: 4px 8px; 
+         	margin: 6px 0;
+         	margin-left:10px;
+            background-color: #ffb3c6;
+            color: black;
+            border: 1px solid #ffb3c6;
+            border-radius: 4px;
+            font-size: 13px;
+            max-width: 300px;
+            display: inline-block;
+            transition: opacity 0.5s ease;
+            font-size:13px;
+            font-weight:bold; ">
+            
+           <span th:text="${message}"></span>
+       </div>
+        </div>
+ </form>
+        
+
+        <!-- Search box 
+        <div class="search-box">
+          <input type="text" id="searchInput" name="search" th:value="${search}" placeholder="Search..." form="searchForm" />
+          <button type="submit" id="searchBtn" form="searchForm">Search</button>
+        </div>-->
+
+        <!-- Table -->
+        <div class="table-wrapper">
+          <div class="table-container">
+            <table class="grid-view" id="machineTable">
+              <thead>
+                <tr>
+                  <th>Location</th>
+                  <th>Machine Name</th>
+                  <th>Test ID</th>
+                  <th>Test Name</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+            <tbody th:replace="fragments/machineTableFragment :: tableRows(${machineTests})"></tbody>
+            </table>
+            
+            
+<div class="pagination-wrapper" th:if="${totalPages > 1}">
+    <!-- Prev -->
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{/machineCode(page=${currentPage - 1}, search=${search})}"
+           class="page-link">Prev</a>
+    </span>
+
+    <!-- Page numbers (±2 range) -->
+    <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+          th:if="${i >= currentPage - 2 and i <= currentPage + 2}">
+        <a th:href="@{/machineCode(page=${i}, search=${search})}"
+           th:text="${i + 1}"
+           th:classappend="${i == currentPage} ? 'active-page' : ''"
+           class="page-link"></a>
+    </span>
+
+    <!-- Next -->
+    <span th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/machineCode(page=${currentPage + 1}, search=${search})}"
+           class="page-link">Next</a>
+    </span>
+</div>
+</div>
+</div>
+
+
+            <!-- Pagination 
+            <div class="pagination-wrapper" th:if="${totalPages > 1}">
+              <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{/machineCode(page=${i}, search=${search})}"
+                   th:text="${i + 1}"
+                   th:class="${i == currentPage} ? 'active-page' : ''"
+                   class="page-link"></a>
+              </span>
+            </div>-->
+        
+        
+     
+
+      <!-- Search Form -->
+      <form id="searchForm" th:action="@{/machineCode}" method="get"></form>
+    </fieldset>
+  </div>
+</div>

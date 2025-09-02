@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>RS232 Configurator</title>
+  <style>
+   
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      padding: 5px;
+    }
+
+    .config-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 9px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      margin-top: 5px;
+      text-align: left;
+      font-size: 16px;
+      border-bottom: 2px solid #000;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 48%;
+    }
+
+    .form-group label {
+      display: inline-block;
+      width: 120px;
+      font-weight: bold;
+      text-align: left;
+      margin-right: 10px;
+    }
+
+    input, select {
+      padding: 6px;
+      min-width: 150px;
+      box-sizing: border-box;
+    }
+
+    .form-row-full {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .form-row-full input {
+      flex: 1;
+      background-color: #e8e8e8;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    button {
+      width: 120px;
+      margin: 5px;
+      padding: 6px 8px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .test-btn {
+      background-color: #007bff;
+    }
+
+    .save-btn {
+      background-color: #007bff;
+      color: white;
+      min-width: 200px;
+      padding: 10px 0;
+      font-weight: bold;
+    }
+
+    .status-btn {
+      background-color:#007bff;
+    }
+
+    fieldset {
+      border: 1px solid #000;
+      padding: 2px 10px;
+      border-radius: 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+
+<div class="config-container">
+  <h2>RS232 Configuration</h2>
+
+  <form th:action="@{/saveRs232Config}" method="post">
+  
+      <!-- Row 3 -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Machine ID</label>
+        <input type="text" name="machineId" th:value="${rs232?.machineId}" />
+      </div>
+      <div class="form-group">
+        <label>Machine Name</label>
+        <input type="text" name="machineName" th:value="${rs232?.machineName}" />
+      </div>
+    </div>
+   
+    <div class="form-row">
+      <div class="form-group">
+        <label>Baud Rate</label>
+        <select name="baudRate" th:field="*{baudRate}">
+    <option value="9600" th:selected="${rs232?.baudRate == 9600}">9600</option>
+     <option value="4800" th:selected="${rs232?.baudRate == 4800}">4800</option>
+    <option value="19200" th:selected="${rs232?.baudRate == 19200}">19200</option>   
+    <option value="11500" th:selected="${rs232?.baudRate == 115200}">11500</option>
+  </select>
+      </div>
+      <div class="form-group">
+        <label>Parity</label>
+       <select name="parity" th:field="*{parity}">
+    <option value="0" th:selected="${rs232?.parity == 0}">None</option>
+    <option value="1" th:selected="${rs232?.parity == 1}">Odd</option>
+    <option value="2" th:selected="${rs232?.parity == 2}">Even</option>
+    <option value="3" th:selected="${rs232?.parity == 3}">Mark</option>
+    <option value="4" th:selected="${rs232?.parity == 4}">Space</option>
+  </select>
+      </div>
+    </div>
+
+   
+    <div class="form-row">
+      <div class="form-group">
+        <label>Stop Bits</label>
+        <select name="stopBits" th:field="*{stopBits}">
+    <option value="1" th:selected="${rs232?.stopBits == 1}">ONE</option>
+    <option value="2" th:selected="${rs232?.stopBits == 2}">TWO</option>
+    <option value="3" th:selected="${rs232?.stopBits == 3}">NONE</option>
+  </select>
+      </div>
+      <div class="form-group">
+        <label>Data Bits</label>
+        <select name="dataBits" th:field="*{dataBits}">
+        <option value="5" th:selected="${rs232?.dataBits == 5}">5</option>
+    <option value="6" th:selected="${rs232?.dataBits == 6}">6</option>
+    <option value="7" th:selected="${rs232?.dataBits == 7}">7</option>
+    <option value="8" th:selected="${rs232?.dataBits == 8}">8</option>
+     <option value="9" th:selected="${rs232?.dataBits == 9}">9</option>
+  </select>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label>Method Name</label>
+        <input type="text" name="machineName" th:value="${rs232?.machineName}" />
+      </div>
+      <div class="form-group">
+        <label>Protocol Type</label>
+        <select name="protocolType" th:value="${rs232?.protocolType}">
+          <option value="hl7">HL7</option>
+          <option value="astm">ASTM</option>
+           <option value="kermit">KERMIT</option>
+        </select>
+      </div>
+    </div>
+
+   
+    <div class="form-row">
+      <div class="form-group">
+        <label>DB Type</label>
+        <select name="dbType" th:value="${rs232?.dbType}">
+          <option value="sqlserver">SQL Server</option>
+          <option value="mysql">MySQL</option>
+          <option value="oracle">Oracle</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>DB Credentials</label>
+        <input type="text" name="dbCredentials" th:value="${rs232?.dbCredentials}" />
+      </div>
+    </div>
+
+    <!-- Row -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="portSelect">COM PORT</label>
+        <select id="portSelect" name="port">
+             <option value="">Select Port</option>
+            <option th:each="port : ${ports}" 
+                    th:value="${port}" 
+                    th:text="${port}">
+            </option>
+        </select>
+      </div>
+      <div class="form-group">
+       <label>X-ON/OFF</label>
+        <select name="xonoff" th:value="${rs232?.xonoff}">
+         <option value="none">None</option>
+          <option value="on">On</option>
+          <option value="off">Off</option>          
+        </select>
+      </div> 
+    </div>
+
+    <!-- Test & Status Buttons -->
+    <div class="form-row">
+      <div class="form-group">
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="test-btn" onclick="testConnection()">Test Connection</button>
+          <input type="text" id="testResult" readonly placeholder="Result" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="status-btn" onclick="checkStatus()">Status</button>
+          <input type="text" id="statusBox" readonly placeholder="Status" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="actions">
+      <button type="submit" class="save-btn">Save Configuration</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  function testConnection() {
+    document.getElementById('testResult').value = "Testing...";
+    setTimeout(() => {
+      document.getElementById('testResult').value = "Connection successful!";
+    }, 1000);
+  }
+
+  function checkStatus() {
+    document.getElementById('statusBox').value = "Checking...";
+    setTimeout(() => {
+      document.getElementById('statusBox').value = "Status OK";
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>

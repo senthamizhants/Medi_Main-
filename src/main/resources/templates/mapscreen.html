@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{MappingDetail}">
+
+<head>
+  <title>MappingScreen</title>
+  <link rel="stylesheet" th:href="@{/css/mappingScreen.css}" />
+  <script th:src="@{/js/mappingScreen.js}" defer></script>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div th:replace="fragments/mapscreenCode.html :: mapscreenCodeFormFragment"></div>
+  </div>
+</body>
+</html>

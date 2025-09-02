@@ -1,0 +1,13 @@
+<tbody th:fragment="tableRows(${machineTests})" id="machineTableBody">
+  <tr th:each="test : ${machineTests}">
+    <td>
+      <input type="checkbox"
+       name="selectedTests"
+       th:attr="data-test-id=${test.testId}, data-test-name=${test.testName}"
+       onclick="handleTestSelection(this)" />
+    </td>
+    <td th:text="${test.testId}">Test ID</td>
+    <td th:text="${test.testName}">Test Name</td>
+   
+  </tr>
+</tbody>

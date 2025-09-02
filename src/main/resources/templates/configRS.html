@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{AddMachine}">
+
+<head>
+  <title>RS232</title>
+  <link rel="stylesheet" th:href="@{/css/configRS.css}" />
+  <script th:src="@{/js/configRS.js}" defer></script>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div th:replace="fragments/configRS.html :: configRSFormFragment"></div>
+  </div>
+</body>
+</html>

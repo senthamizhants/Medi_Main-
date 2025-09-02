@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <title>Home Page</title>
+    
+    <style>
+        html, body { 
+            margin:0; 
+            padding:0; 
+            height:100%; 
+            width:100%; 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(to bottom right,#bcd3c6, #ffffff);
+        }
+        .left-tabs {
+            display: flex;
+            gap: 10px; /* spacing between buttons */
+        }
+        .right-text {
+            font-family: Arial, sans-serif;
+            font-size: 25px;
+            font-weight: bold;
+            margin-right: 30px; 
+            color: white;
+            gap: 10px;
+        }
+        .logo-img {
+            height: 50px; /* adjust as needed */
+            width: auto;
+        }
+        .tab { 
+            display: flex; 
+            overflow: hidden;
+            border-radius: 10px 10px 0 0;
+            justify-content: space-between; /* separates left and right */
+            align-items: center;
+            padding: 4px 10px;  
+            background: #40916c;
+            padding: 10px;
+            height: 20px;
+            gap: 10px;
+            /* background: linear-gradient(to bottom right, #ffffff, #e6f7ff);           
+            background: linear-gradient(to right, #6dd5fa, #2980b9); 
+            border-bottom: 1px solid #ccc;
+            background: linear-gradient(to bottom, #004080, #3366cc);
+            background-color: #f1f1f1; */
+        }
+        .dropdown {
+            display: inline-block;
+        }
+        .tabbutton {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 5px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+            width: 150px;
+            font-weight: bold;
+            background: #E4EFE7;
+            color: #333;
+        }
+        .tabbutton img.menu-icon {
+            width: 20px;
+            height: 20px;
+        }
+        .tabbutton:hover {
+            background: #d8f3dc;
+            background-color: #d8f3dc;
+            box-shadow: 0 0 18px rgba(0,0,0,0.50);
+            /*box-shadow: 0 8px 32px rgba(64,145,108,0.17);*/
+            transform: translateY(-2px) scale(1.03);
+        }
+        .tabbutton.active {
+            background-color: #ccc;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: #f1f1f1;;
+            /*background: linear-gradient(to bottom right,#bcd3c6, #ffffff);*/
+            min-width: 130px;
+            border: 1px solid #40916c;
+            border-radius: 10px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,20);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px 12px;
+            text-decoration: none;
+            border-radius:10px;
+            color: black;
+            font-size: 14px; 
+            /* border-bottom: .5px solid #eee; */
+        }
+        .dropdown-content a:hover {
+        background: linear-gradient(to bottom right,#bcd3c6, #ffffff);
+         box-shadow: 0 0 18px rgba(0,0,0,0.50);
+            /*box-shadow: 0 8px 32px rgba(64,145,108,0.17);*/
+            transform: translateY(-2px) scale(1.03);
+            /*background-color: #f1f1f1;*/
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        .tabcontent.active-tab {
+            display: block;
+        }
+        body {
+            background-color: white; /* light blue */
+        }
+        .close {
+            float: right;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+        .center-title {
+            text-align: center;
+        }
+    </style>
+    
+</head>
+<body>
+    
+    
+</body>
+</html>

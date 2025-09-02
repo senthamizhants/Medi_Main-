@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="icon" type="image/png" th:href="@{/images/Mainicons8.png}" />
+  <meta charset="UTF-8" />
+  <title>Sample Status</title>
+ 
+</head>
+<body>
+<div class="page-title-container">
+    <!-- Buttons aligned left -->
+    <div class="menu-buttons">
+        <!-- Home Button -->
+        <a th:href="@{/home}" class="icon-btn" title="Home">
+            <img th:src="@{/images/home.png}" alt="Home" width="20" height="20">
+        </a>
+
+        <!-- Back Button -->
+        <button type="button" class="icon-btn" onclick="history.back()" title="Back">
+            <img th:src="@{/images/backButton.png}" alt="Back" width="20" height="20">
+        </button>
+    </div>
+
+    <!-- Title centered -->
+   
+ <h2>Service Status</h2>
+ 
+</div>
+
+<style>
+		h2{
+		background-color:#40916c;
+		color:white;
+		border-radius:5px;
+		font-size:25px;
+		text-align:center;
+		}
+		   .page-title-container {
+    display: flex;
+    align-items: center;   /* vertical center */
+    gap: 10px;             /* space between icons and title */
+    padding: 8px 10px;
+    height:30px;
+     color: #333; 
+         margin-bottom: 10px;
+         margin-top: 2px;
+         background-color: #40916c; 
+         color: white; 
+         text-align: center; 
+         font-size: 10px;
+         border-radius:5px;
+         padding:5px;
+}
+
+.menu-buttons {
+    display: flex;
+    gap: 8px;
+                  /* spacing between Home & Back buttons */
+}
+
+.page-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+.icon-btn {
+    width: 32px;
+    height:32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    background-color: #40916c;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    
+}
+.icon-btn:hover {
+    background-color: #367f5d;
+    
+}
+</style>
+</body>
+</html>

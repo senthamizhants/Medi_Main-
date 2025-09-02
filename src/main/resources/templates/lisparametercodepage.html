@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{MappingDetail}">
+
+<head>
+  <title>LISPARAMETER CODE</title>
+  <link rel="stylesheet" th:href="@{/css/LisParameterCode.css}" />
+  <script th:src="@{/js/LisParameterCode.js}" defer></script>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div th:replace="fragments/LisParameterCode.html :: LisParameterCodeFormFragment"></div>
+  </div>
+</body>
+</html>

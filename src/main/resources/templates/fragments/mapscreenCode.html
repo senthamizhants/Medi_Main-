@@ -1,0 +1,162 @@
+<div th:fragment="mapscreenCodeFormFragment">
+<div class="container">
+
+
+		<div class="page-title-container">
+    <!-- Buttons aligned left -->
+    <div class="menu-buttons">
+        <!-- Home Button -->
+        <a th:href="@{/home}" class="icon-btn" title="Home">
+            <img th:src="@{/images/home.png}" alt="Home" width="20" height="20">
+        </a>
+
+        <!-- Back Button -->
+        <button type="button" class="icon-btn" onclick="history.back()" title="Back">
+            <img th:src="@{/images/backButton.png}" alt="Back" width="20" height="20">
+        </button>
+    </div>
+
+    <!-- Title centered -->
+    <div class="mapping-title-container">
+<h2 class="mapping-title">Mapping Screen</h2>
+</div>
+</div>
+<fieldset>
+
+    <form id="mappingform" th:action="@{/api/mapping/mappingScreen}"  method="post" onsubmit="return validateForm()">
+
+    <!-- ✅ Form Grid -->
+    <div class="form-grid">
+        <!-- Location -->
+       <div class="search-location-machine-row">
+       
+         <div>   <label for="ddlocation">Location</label>
+    <select id="location" name="locationId">
+        <option value=""hidden selected>-- Select Location --</option>
+        <option th:each="loc : ${locations}" th:value="${loc.id}" th:text="${loc.location}"></option>
+    </select>
+   <div id="error_msg" class="fade-message"></div>
+</div>
+         
+        <!-- Machine -->
+        
+        
+         <div>  
+          <label for="ddlocation">MachineName</label>
+          <select id="machine" name="machineid">
+    <option value=""hidden selected>-- Select Machine --</option>
+    <option th:each="mach : ${machines}" th:value="${mach.machineId}" th:text="${mach.machineName}"></option>
+</select>
+    <div id="error_msg" class="fade-message"></div>
+        </div>
+         
+      <div class="search-box">   
+       <input type="text" id="searchInput" placeholder="Search..." />
+      
+<button type="button" id="searchBtn">Search</button>
+</div>
+    
+           </div>  </div>
+
+         
+    <div class="table-row">
+          <div class="test-table-container">
+<table id="testTable" class="test-table" >
+  <thead>
+    <tr>
+        <th><!-- <input type="checkbox" name="selectedRows" onclick="toggleAll(this)" /> --></th> 
+      <th>Test ID</th>
+      <th>Test Name</th>
+    </tr>
+  </thead>
+  <tbody th:replace="fragments/machineTable :: tableRows(${machineTests})"></tbody>
+</table>
+
+</div>
+    
+    
+<div class="parameter-table-container">
+  <table id="parameterTable">
+    <thead>
+      <tr>
+        <th><!-- <input type="checkbox" name="selectedParams" onclick="toggleAll(this)" /> --></th>
+        <th>LIS Parameter ID</th>
+        <th>LIS Parameter Name</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    
+
+    <!-- ✅ Inject rows dynamically using the fragment -->
+    <tbody th:replace="fragments/parameterTable :: tableRows(${lisCodeList})"></tbody>
+
+  </table>
+  </div>
+</div>
+ 
+    
+   <input type="hidden" id="testId" name="testId" />
+<input type="hidden" id="testName" name="testName" />
+<input type="hidden" id="selectedParameterId" name="parameterId">
+<input type="hidden" id="selectedParameterName" name="parameterName">
+    
+        <!-- ✅ Numeric Fields -->
+<div class="form-row horizontal-row">
+
+    <div class="form-numer">
+       <div> <label for="txt_round_off">Round Off</label>
+       <input type="text" id="txt_round_off" name="roundOff" value="3">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_multiply_by">Multiply By</label>
+       <input type="text" id="txt_multiply_by" name="multiplyBy" value="1">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_divided_by">Divided By</label>
+       <input type="text" id="txt_divided_by" name="dividedBy" value="1">
+    </div></div>
+    <div class="form-numer">
+       <div>  <label for="txt_result_format">Result Format</label>
+        <input type="text" id="txt_result_format" name="resultFormat" value="0.00">
+    </div></div>
+    <div class="form-numer">
+         <label for="txt_display_order">Display Order</label>
+      <input type="text" id="txt_display_order" name="displayOrder" value="1">
+    </div>
+    
+</div>
+
+<!-- ✅ Flags -->
+<div class="form-row horizontal-row">
+ 
+    <div class="form-check">
+      <label><input type="checkbox" name="download" checked> Download</label>
+    </div>
+    
+    <div class="form-check">
+     <label><input type="checkbox" name="active" checked> Active</label>
+    </div>
+    <div class="form-check">
+     <div>   <label><input type="checkbox" name="calculated"> Calculated</label>
+    </div></div>
+</div>
+
+    <!-- ✅ Action Buttons -->
+    <div class="form-actions">
+        <button type="submit" name="_action" value="save">Save</button>
+         
+        <button type="submit" name="_action" value="cancel">Cancel</button>
+    </div>
+<div th:if="${message}" class="alert alert-success" style="color: green; margin-bottom: 10px;">
+    <p th:text="${message}"></p>
+</div>
+
+<div th:if="${error}" class="alert alert-danger" style="color: red; margin-bottom: 10px;">
+    <p th:text="${error}"></p>
+</div>
+    <!-- ✅ Message -->
+    <div id="error_msg" class="fade-message"></div>
+</form>
+</fieldset>
+</div>
+</div>

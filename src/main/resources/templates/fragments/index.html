@@ -1,0 +1,158 @@
+<div th:fragment="tcpipFormFragment">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabLink — Server/Client Connections</title>
+    <link rel="stylesheet" th:href="@{/css/tcpip.css}" href="/css/tcpip.css"/>
+</head>
+<body>
+<div class="container">
+    <h1>LabLink — TCP Manager</h1>
+    <p>Configure as <strong>Server</strong> or <strong>Client</strong>. Use Ping and Test Connection before saving.</p>
+
+    <div class="mode-select">
+        <label><input type="radio" name="mode" value="server" checked onclick="toggleMode('server')"> Server</label>
+        <label><input type="radio" name="mode" value="client" onclick="toggleMode('client')"> Client</label>
+    </div>
+
+    <!-- SERVER FORM -->
+    <form id="serverForm" class="card" onsubmit="saveServer(event)">
+        <h2>Server Configuration</h2>
+        <div class="row">
+            <div class="field">
+                <label>Server IP</label>
+                <input name="serverIp" placeholder="e.g. 0.0.0.0 for all interfaces" required>
+            </div>
+            <div class="field">
+                <label>Port Number</label>
+                <input name="port" type="number" min="1" max="65535" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Name</label>
+                <input name="name" required>
+            </div>
+            <div class="field">
+                <label>Machine ID</label>
+                <input name="machineId" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Database Type</label>
+                <input name="databaseType" placeholder="e.g. H2/MySQL/Postgres" required>
+            </div>
+            <div class="field">
+                <label>DB Credentials</label>
+                <input name="dbCredentials" placeholder="user:pass@host/db" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Protocol Type</label>
+                <select name="protocolType" required>
+                    <option th:each="p : ${protocolTypes}" th:value="${p}" th:text="${p}">RAW</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Client IP</label>
+                <input name="clientIp" placeholder="Client IP to ping" required>
+            </div>
+            <div class="field button-inline">
+                <label>&nbsp;</label>
+                <button type="button" onclick="pingIp(this, 'serverForm', 'clientIp')">Ping</button>
+                <span class="status" data-role="ping-status"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field grow">
+                <label>Status Area</label>
+                <textarea name="status" readonly rows="3" placeholder="Click Test Connection to start listening..."></textarea>
+            </div>
+            <div class="field button-inline">
+                <label>&nbsp;</label>
+                <button type="button" onclick="testServer(this)">Test Connection</button>
+            </div>
+        </div>
+        <div class="row end">
+            <button type="submit" disabled data-role="save-btn">Save Configuration</button>
+            <span class="status" data-role="save-status"></span>
+        </div>
+    </form>
+
+    <!-- CLIENT FORM -->
+    <form id="clientForm" class="card hidden" onsubmit="saveClient(event)">
+        <h2>Client Configuration</h2>
+        <div class="row">
+            <div class="field">
+                <label>IP of Host</label>
+                <input name="hostIp" required>
+            </div>
+            <div class="field">
+                <label>Port Number</label>
+                <input name="port" type="number" min="1" max="65535" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Machine Name</label>
+                <input name="machineName" required>
+            </div>
+            <div class="field">
+                <label>Machine ID</label>
+                <input name="machineId" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Database Type</label>
+                <input name="databaseType" required>
+            </div>
+            <div class="field">
+                <label>DB Credentials</label>
+                <input name="dbCredentials" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label>Protocol Type</label>
+                <select name="protocolType" required>
+                    <option th:each="p : ${protocolTypes}" th:value="${p}" th:text="${p}">RAW</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Ping Server IP</label>
+                <input name="pingIp" required>
+            </div>
+            <div class="field button-inline">
+                <label>&nbsp;</label>
+                <button type="button" onclick="pingIp(this, 'clientForm', 'pingIp')">Ping</button>
+                <span class="status" data-role="ping-status"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field grow">
+                <label>Status Area</label>
+                <textarea name="status" readonly rows="3" placeholder="Click Test Connection to connect to server..."></textarea>
+            </div>
+            <div class="field button-inline">
+                <label>&nbsp;</label>
+                <button type="button" onclick="testClient(this)">Test Connection</button>
+            </div>
+        </div>
+        <div class="row end">
+            <button type="submit" disabled data-role="save-btn">Save Configuration</button>
+            <span class="status" data-role="save-status"></span>
+        </div>
+    </form>
+
+    <div class="info">
+        <p><strong>Notes:</strong> ASTM uses ENQ (5) / ACK (6) handshake. RAW has no handshake.</p>
+        <p>After a successful Test Connection, the Save button will enable. Saving starts an independent background runner.</p>
+    </div>
+</div>
+
+<script src="/js/tcpip.js" th:src="@{/js/tcpip.js}"></script>
+</body>
+</html>

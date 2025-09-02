@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="icon" type="image/png" th:href="@{/images/Mainicons8.png}" />
+  <meta charset="UTF-8" />
+  <title>Sample Status</title>
+ 
+</head>
+<body>
+	
+    <nav class="navbar">
+     <div class="menu-buttons">
+        <!-- Home Button -->
+        <a th:href="@{/home}" class="icon-btn" title="Home">
+            <img th:src="@{/images/home.png}" alt="Home" width="20" height="20">
+        </a>
+        <!-- Back Button -->
+        <button type="button" class="icon-btn" onclick="history.back()" title="Back">
+            <img th:src="@{/images/backButton.png}" alt="Back" width="20" height="20">
+        </button>
+    </div>
+        <ul>
+       
+        
+            <div class="tab active" onclick="switchTab('summary')" >
+                <li><a href="#">Summary</a></li>
+            </div>
+            <div class="tab" onclick="switchTab('details')" >
+                <li><a href="#">Details</a></li>
+            </div>
+        </ul>
+    </nav>
+
+    <!-- ✅ Summary Tab -->
+    <div id="summary" class="tab-content active">
+      
+		<form class="filter-form" th:action="@{/orders#details}" method="get">
+		         
+		           <div class="det-date">
+		               <label for="startDate">From Date</label><br/>
+		               <input type="date" name="startDate" id="startDate" th:value="${startDate777}">
+		           </div>
+
+		           <div class="det-date">
+		               <label for="endDate">To Date</label><br/>
+		               <input type="date" name="endDate" id="endDate" th:value="${endDate777}">
+		           </div>
+
+		           <div classstyle="align-self: flex-start;" class="det-button">
+		               <button type="submit">Go</button>
+		               <button type="button" class="button-link clear" id="clearBtn">Clear</button>
+					
+		           </div>
+		       </form>
+		
+
+        <table class="Summary-table">
+            <thead>
+                <tr>
+                    <th>Process Date</th>
+                    <th>Total Orders</th>
+                    <th>Total Result</th>
+                </tr>
+            </thead>
+			<tbody>
+			    <tr><td>2025-08-01</td><td>120</td><td>115</td></tr>
+			    <tr><td>2025-08-02</td><td>132</td><td>128</td></tr>
+			    <tr><td>2025-08-03</td><td>110</td><td>109</td></tr>
+			    <tr><td>2025-08-04</td><td>150</td><td>148</td></tr>
+			    <tr><td>2025-08-05</td><td>143</td><td>140</td></tr>
+			    <tr><td>2025-08-06</td><td>138</td><td>137</td></tr>
+			    <tr><td>2025-08-07</td><td>129</td><td>126</td></tr>
+			    <tr><td>2025-08-08</td><td>115</td><td>112</td></tr>
+			    <tr><td>2025-08-09</td><td>120</td><td>119</td></tr>
+			    <tr><td>2025-08-10</td><td>122</td><td>121</td></tr>
+			    <tr><td>2025-08-11</td><td>135</td><td>130</td></tr>
+			    <tr><td>2025-08-12</td><td>145</td><td>143</td></tr>
+			    <tr><td>2025-08-13</td><td>118</td><td>116</td></tr>
+			    <tr><td>2025-08-14</td><td>128</td><td>125</td></tr>
+			   
+			</tbody>
+
+            <tbody id="summaryBody"></tbody>
+        </table>
+    </div>
+
+    <!-- ✅ Details Tab -->
+    <div id="details" class="tab-content">
+        <form class="filter-form" th:action="@{/orders#details}" method="get">
+            <div>
+                <label for="mrn">Patient No</label><br/>
+                <input type="text" name="mrn" id="mrn" th:value="${mrn}" >
+            </div>
+
+            <div>
+                <label for="sampleNo">Sample No</label><br/>
+                <input type="text" name="sampleNo" id="sampleNo" th:value="${sampleNo}" >
+            </div>
+
+            <div class="det-date">
+                <label for="startDate">From Date</label><br/>
+                <input type="date" name="startDate" id="startDate" th:value="${startDate}">
+            </div>
+
+            <div class="det-date">
+                <label for="endDate">To Date</label><br/>
+                <input type="date" name="endDate" id="endDate" th:value="${endDate}">
+            </div>
+
+            <div classstyle="align-self: flex-start;" class="det-button">
+                <button type="submit">Go</button>
+                <button type="button" class="button-link clear" id="clearBtn">Clear</button>
+				<button type="submit">Export</button>
+				<button type="submit">Print</button>
+            </div>
+        </form>
+    	<div class="total">
+        <p >Total results: <strong th:text="${count}">0</strong></p>
+		</div>
+
+        <div class="Det-table-wrapper">
+            <table class="Det-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>MSampleNo</th>
+                        <th>SampleNo</th>
+                        <th>ParameterID</th>
+                        <th>ParameterName</th>
+                        <th>Name</th>
+                        <th>DOB</th>
+                        <th>Age</th>
+                        <th>Sex</th>
+                        <th>MRN</th>
+                        <th>CreateDate</th>
+                        <th>AcceptanceDate</th>
+                        <th>LocationID</th>
+                        <th>OrderUpdateFlag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.id}"></td>
+                        <td th:text="${order.mSampleNo}"></td>
+                        <td th:text="${order.sampleNo}"></td>
+                        <td th:text="${order.parameterID}"></td>
+                        <td th:text="${order.parameterName}"></td>
+                        <td th:text="${order.name}"></td>
+                        <td th:text="${order.dob}"></td>
+                        <td th:text="${order.age}"></td>
+                        <td th:text="${order.sex}"></td>
+                        <td th:text="${order.mrn}"></td>
+                        <td th:text="${order.createDate}"></td>
+                        <td th:text="${order.acceptanceDate}"></td>
+                        <td th:text="${order.locationID}"></td>
+                        <td th:text="${order.orderUpdateFlag}"></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(orders)}">
+                        <td colspan="14">No records found for the selected filters.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ✅ Pagination -->
+		<ul class="pagination">
+		    <li th:if="${currentPage > 0}">
+				<a th:href="|@{/orders(page=${currentPage-1}, size=20, activeTab='details', patientNumber=${patientNumber}, sampleNo=${sampleNo}, startDate=${startDate}, endDate=${endDate})}#details|">Prev</a>
+		    </li>
+
+		    <li th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+		        th:if="${i >= currentPage-2 and i <= currentPage+2}">
+				<a th:href="|@{/orders(page=${i}, size=20, activeTab='details', patientNumber=${patientNumber}, sampleNo=${sampleNo}, startDate=${startDate}, endDate=${endDate})}#details|"
+				   th:text="${i + 1}"
+				   th:classappend="${i == currentPage} ? 'active' : ''"></a>
+		    </li>
+
+		    <li th:if="${currentPage < totalPages-1}">
+				<a th:href="|@{/orders(page=${currentPage+1}, size=20, activeTab='details', patientNumber=${patientNumber}, sampleNo=${sampleNo}, startDate=${startDate}, endDate=${endDate})}#details|">Next</a>
+		    </li>
+		</ul>
+		<style>
+			
+			
+			html, body {
+			  		       height: 100%;
+			  		       margin: 0;
+			  		       padding: 0;
+			  		       font-family: Arial, sans-serif;
+			  		       background-color:white;
+			  		       display: flex;
+			  		       flex-direction: column;
+			  			   
+			  		   }
+			  			body {
+			  			 font-family: Arial; 
+			  			 padding: 0px; 
+			  		 }
+			  		.tranform:hover{
+			  			transition-duration: 0ms;
+			  	}
+			  	.navbar {
+			  		      display: flex;
+			  		      align-items: center;
+			  		      background-color: #40916c;
+			  		      padding: 0.10rem 1.0rem;
+			  		      font-weight :bold;
+			  	          border-radius: 10px;
+						  margin : 0px;
+						  height: 40px;
+						  justify-content: flex-start;
+			  	        
+			  		    }
+			  		    
+			  		    
+.menu-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom:1px;              /* spacing between Home & Back buttons */
+}
+
+.page-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+.icon-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    background-color: #40916c;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    
+}
+.icon-btn:hover {
+    background-color: #367f5d;
+}
+
+			  		    .navbar .logo {
+			  		      color: #fff;
+			  		      font-size: 1.5rem;
+			  		      font-weight: bold;
+			  		      text-decoration: none;
+			  		    }
+
+			  		    .navbar ul {
+			  		      list-style: none;
+			  		      display: flex;
+			  		      gap: 0.7rem;
+			  		      
+			  		      
+			  		    }
+
+			  		    .navbar ul li a {
+			  		      color: #081c15;
+			  		      text-decoration: none;
+			  		      font-size:15px;
+			  		      transition: color 0.3s ease;
+			  		      display: flex;
+			  		      align-items: center;
+			  		      gap: 0.5rem;
+			  		      justify-content: flex-start;
+			  		      
+			  		    }
+
+			  		  /* .navbar ul li a:hover {
+			  		      
+			  		    }*/
+
+			  		    @media (max-width: 768px) {
+			  		      .navbar ul {
+			  		        display: none;
+			  		      }
+			  		    }
+			  		
+			  				.tabs { 
+			  					display: flex; 
+			  					margin-bottom: 10px; 
+			  					margin-right: 10px;
+			  					width: 4%;
+			  					
+			  				}
+			  				.tab { 
+			  					padding: 5px; 
+			  					border: none; 
+			  					cursor: pointer;
+			  					border-radius: 4px;
+			  					font-weight: bold;
+								font-size: 8px;
+			  				 }
+			  				 .tab:hover{
+			  				 
+			  				 box-shadow: 0 0 18px rgba(0,0,0,0.20);
+          					 /*box-shadow: 0 8px 32px rgba(64,145,108,0.17);*/
+           					 transform: translateY(-2px) scale(1.03);
+           					 border-radius:50px;
+           					 color:white;
+           					 
+			  				 }
+			  				 
+			  				.tab.active{ 
+			  					 background: #b7e4c7;
+			  					 font-weight: bold; 
+			  					 color: white;
+			  					 text-align: center;
+			  			         border-radius: 50px;
+								 
+			  				 }
+			  	
+			  		.tab-content { 
+			  					display: none;
+			  					border: 1px solid #ccc; 
+			  					padding: 10px; 
+			  				}
+			  				.tab-content.active {
+			  					 display: block;
+			  					 border: none; 
+								 align-items: center;
+			  				 }
+							 .tab-content.active table{
+								align-items: center;
+								text-align: center;
+								align-content: center;
+							 }
+							 
+
+
+			  			/* Container styling */
+			  			.sum-date {
+			  			  margin: 3px;
+			  			  padding: 3px;
+			  			  background-color: #f5f5f5;
+			  			  border-radius: 8px;
+			  			  display: flex;
+			  			  gap: 10px;
+			  			  align-items: center;
+			  			  font-family: Arial, sans-serif;
+			  			}
+
+			  			/* Label styling */
+			  			.sum-date label {
+			  			  font-weight: bold;
+			  			  margin-right: 5px;
+			  			}
+
+			  			/* Date input styling */
+			  			.sum-date input[type="date"] {
+			  			  padding: 8px 10px;
+			  			  border: 1px solid #ccc;
+			  			  border-radius: 6px;
+			  			  outline: none;
+			  			  font-size: 12px;
+			  			  transition: border-color 0.3s;
+			  			}
+
+			  			.sum-date input[type="date"]:focus {
+			  			  border-color: #007bff;
+			  			}
+			  			.sum-go-button {
+			  				  margin-top: 8px;
+			  				  text-align: center; /* Center the button */
+			  				}
+
+			  				/* Styling the Go button */
+			  				.sum-go-button button {
+			  				  background-color: #40916c;   
+			  				  color: white;
+			  				  border: none;
+			  				  padding: 10px 20px;
+			  				  font-size: 13px;
+			  				  border-radius: 6px;
+			  				  cursor: pointer;
+			  				  transition: background-color 0.3s ease;
+			  				}
+
+			  				/* Hover effect */
+			  				.sum-go-button button:hover {
+			  				  background-color: #367f5d;
+			  				}
+			  			.filter-form {
+			  			  display: flex;
+			  			  flex-wrap: wrap;
+			  			  gap: 10px;
+			  			  background-color: #f8f9fa;
+			  			  padding: 5px;
+			  			  border-radius: 10px;
+			  			  font-family: Arial, sans-serif;
+			  			}
+
+			  			.filter-form div.input-group {
+			  			  display: flex;
+			  			  flex-direction: column;
+			  			  min-width: 200px;
+			  			  flex: 1 1 auto;
+			  			}
+
+			  			.filter-form label {
+			  			  font-weight: bold;
+			  			  margin-bottom: 5px;
+						  font-size: 13px;
+			  			}
+
+			  			.filter-form input[type="text"],
+			  			.filter-form input[type="date"] {
+			  			  padding: 5px;
+			  			  border: 1px solid #ccc;
+			  			  border-radius: 6px;
+			  			  font-size: 12px;
+			  			}
+
+			  			.filter-form .button-group {
+			  			  display: flex;
+			  			  gap: 10px;
+			  			  flex-wrap: wrap;
+			  			  width: 100%;
+			  			  margin-top: 10px;
+			  			}
+						.det-button{
+							margin-top: 10px;
+						}
+						.total{
+							margin: 5px;
+							font-size: 13px;
+						}
+
+			  			.filter-form button,
+			  			.filter-form a.button-link {
+			  			  background-color:#bcd3c6;
+			  			  color:black;
+			  			  border: none;
+			  			  padding: 10px 20px;
+			  			  font-size: 12px;
+			  			  border-radius: 6px;
+			  			  cursor: pointer;
+			  			  text-decoration: none;
+						  font-weight: bold;
+			  			  text-align: center;
+			  			  transition: background-color 0.3s ease;
+			  			}
+
+			  			.filter-form a.button-link {
+			  			  background-color: #6c757d;
+			  			}
+
+			  			.filter-form button:hover,
+			  			.filter-form a.button-link:hover {
+			  			  background-color: #367f5d;
+			  			  color:white;
+			  			}
+
+			  			.filter-form a.button-link.clear {
+			  			  background-color: #168aad;
+			  			}
+
+			  			.filter-form a.button-link.clear:hover {
+			  			  background-color: #1a759f;
+			  			}
+			  			
+						.Det-table table{
+							width: 100%;
+							padding: 5px 10px;
+						}
+						
+			  			
+			  				form {
+			  					 margin-bottom: 10px;
+			  					 display: flex; 
+			  					 flex-wrap: wrap; 
+			  					 gap: 10px;
+								  
+			  				 }
+							 
+							   /* Summary table: compact and centered */
+							   .Summary-table {
+							     width: 40%;
+							     margin: 10px ;
+							     border-collapse: collapse;
+							     font-size: 14px;
+							     box-shadow: 0 0 5px rgba(0,0,0,0.1);
+							   }
+
+							   .Summary-table th,
+							   .Summary-table td {
+							     border: 1px solid #a3c9a8;
+							     padding: 5px 8px;
+							     text-align: center;
+							   }
+
+							   .Summary-table th {
+							     background-color: #8fb9a8;
+								 color:#1f3c33;
+							   }
+
+							   /* Details table: scrollable and flexible */
+							   .Det-table-wrapper {
+							     width: 60%;
+							     margin-top: 10px;
+							   }
+
+							   .Det-table {
+							     width: max-content;
+							     min-width: 100%;
+							     border-collapse: collapse;
+							     font-size: 11px;
+							   }
+
+							   .Det-table th,
+							   .Det-table td {
+							     border: 1px solid #a3c9a8;
+							     padding: 5px 12px;
+							     text-align: left;
+							     white-space: nowrap;
+							   }
+
+							   .Det-table th {
+							     background-color: #8fb9a8;
+								 color:#1f3c33;
+							   }
+
+							   .Det-table td {
+							     background-color: #fff;
+							   }
+							   
+							   .pagination {
+							       display: flex;
+							       justify-content: center;
+							       list-style: none;
+							       padding: 5px;
+								   margin: 5px;
+							   }
+
+							   .pagination li {
+							       display: inline;
+							       margin: 0 5px;
+							   }
+
+							   .pagination a {
+							       text-decoration: none;
+							       padding: 3px 8px;
+							       
+								   background-color: #bcd3c6;
+							       color: black;
+							       border-radius: 4px;
+								   font-size: 12px;
+							   }
+
+							   .pagination a.active {
+							       background-color:#367f5d;
+							       color: black;
+							       
+							   }
+
+							   .pagination a:hover {
+							       background-color: #367f5d;
+							       color: white;
+							   }
+
+			
+		</style>
+		
+		
+		<script>
+			
+			function switchTab(id) {
+			          document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
+			          document.querySelector(`.tab[onclick*="${id}"]`).classList.add('active');
+			          document.getElementById(id).classList.add('active');
+			      }
+
+			      document.addEventListener("DOMContentLoaded", () => {
+			          if (location.hash === "#details") {
+			              switchTab("details");
+			          } else if (location.hash === "#summary") {
+			              switchTab("summary");
+			          }
+			      });
+
+				document.addEventListener("DOMContentLoaded", function() {
+				    if (window.location.hash === "#details") {
+				        document.querySelector(".tab[data-tab='details']").classList.add("active");
+				        document.querySelector(".tab[data-tab='summary']").classList.remove("active");
+				        document.querySelector("#details-content").style.display = "block";
+				        document.querySelector("#summary-content").style.display = "none";
+				    }
+				});
+				
+			      document.getElementById("clearBtn").addEventListener("click", function () {
+			          document.getElementById("sampleNo").value = "";
+			          document.getElementById("mrn").value = "";
+			          document.getElementById("startDate").value = "";
+			          document.getElementById("endDate").value = "";
+			          window.location.href = '/orders#details';
+			      });
+		</script>
+
+</body>
+</html>

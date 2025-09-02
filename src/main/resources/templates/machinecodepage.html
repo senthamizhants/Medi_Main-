@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{MappingDetail}">
+
+<head>
+  <title>Machine Code</title>
+  <link rel="stylesheet" th:href="@{/css/MachineCode.css}" />
+  <script th:src="@{/js/MachineCode.js}" defer></script>
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div th:replace="fragments/MachineCode.html :: machineCodeFormFragment"></div>
+  </div>
+</body>
+</html>

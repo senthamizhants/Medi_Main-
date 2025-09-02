@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+    <title>Data Trace</title>
+    <style>
+        body { 
+        font-family: Arial, sans-serif;
+        background: #f4f6f9; margin: 0;
+        padding: 20px; 
+        }
+      
+        h2 {
+         color: #333; 
+         margin-bottom: 1px;
+         margin-top: 2px;
+         background-color: #40916c; 
+         color: white; 
+         text-align: center; 
+         font-size: 20px;
+         border-radius:5px;
+         padding:5px;
+         font-size:18px;
+         }
+           
+    .page-title-container {
+    display: flex;
+    align-items: center;   /* vertical center */
+    gap: 10px;             /* space between icons and title */
+    padding: 8px 10px;
+     color: #333; 
+         margin-bottom: 10px;
+         margin-top: 2px;
+         background-color: #40916c; 
+         color: white; 
+         text-align: center; 
+         font-size: 10px;
+         border-radius:5px;
+         padding:5px;
+}
+
+.menu-buttons {
+    display: flex;
+    gap: 8px;
+                  /* spacing between Home & Back buttons */
+}
+
+.page-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+.icon-btn {
+    width: 32px;
+    height:32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    background-color: #40916c;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    
+}
+.icon-btn:hover {
+    background-color: #367f5d;
+    
+}
+         
+         
+        form {
+            background: #fff; 
+            padding: 10px; 
+            border-radius: 5px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 10px; 
+            align-items: center;
+        }
+        label { 
+        font-weight: bold; 
+        }
+        select, input[type="date"], button, input[type="text"] {
+            padding: 8px; 
+            font-size: 14px; 
+            border-radius: 5px; 
+            border: 1px solid #ccc;
+            
+        }
+        
+        button { 
+        background: #bcd3c6; 
+        color: black; 
+        font-weight:bold;
+        border: none; 
+        cursor: pointer; 
+        }
+        button:hover { 
+        background:#367f5d;
+        color:white;
+         }
+        
+        #rawDataArea {
+            width: 98%; min-height: 400px; padding: 10px;
+            border-radius: 5px; border: 1px solid #ccc;
+            background: #f9f9f9; font-family: monospace;
+            white-space: pre-wrap; overflow-y: auto;
+        }
+        .highlight { 
+        color: crimson; 
+        font-weight: bold; }
+    </style>
+</head>
+<body>
+
+		<div class="page-title-container">
+    <!-- Buttons aligned left -->
+    <div class="menu-buttons">
+        <!-- Home Button -->
+        <a th:href="@{/home}" class="icon-btn" title="Home">
+            <img th:src="@{/images/home.png}" alt="Home" width="20" height="20">
+        </a>
+
+        <!-- Back Button -->
+        <button type="button" class="icon-btn" onclick="history.back()" title="Back">
+            <img th:src="@{/images/backButton.png}" alt="Back" width="20" height="20">
+        </button>
+    </div>
+
+    <!-- Title centered -->
+   
+ <h2>DataTrace</h2>
+</div>
+</div>
+<hr>
+
+<!-- Filters -->
+<form th:action="@{/raw-data/search}" method="get">
+    <label>Machine Name:</label>
+    <select name="machineName" id="machineName">
+        <option value=""hidden selected>-- Select Machine --</option>
+        <option th:each="m : ${machines}"
+                th:value="${m}"
+                th:text="${m}"
+                th:selected="${m == selectedMachine}"></option>
+    </select>
+
+    <label>Protocol:</label>
+    <select name="protocol" id="protocol">
+        <option value=""hidden selected>-- Select Protocol --</option>
+        <option th:if="${selectedProtocol}"
+                th:value="${selectedProtocol}"
+                th:text="${selectedProtocol}"
+                selected="selected"></option>
+    </select>
+
+    <label>From:</label>
+    <input type="date" name="fromDate" th:value="${fromDate}">
+    <label>To:</label>
+    <input type="date" name="toDate" th:value="${toDate}">
+
+    <button type="submit">Search</button>
+	<button type="button" id="clearBtn">Clear</button>
+</form>
+
+<hr>
+
+<!-- Search box -->
+<input type="text" id="rawSearch" placeholder="Search by sample number..." style="width: 30%; margin-bottom: 10px;">
+
+<!-- Display results with colors -->
+<div id="rawDataArea" th:utext="${rawMessages}"></div>
+
+<script>
+    // Load protocols dynamically
+    document.getElementById("machineName").addEventListener("change", function () {
+        let machine = this.value;
+        let protocolDropdown = document.getElementById("protocol");
+        protocolDropdown.innerHTML = '<option value="">-- Select Protocol --</option>';
+
+        if (machine) {
+            fetch(`/protocols-by-machine?machineName=${encodeURIComponent(machine)}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(protocol => {
+                        let opt = document.createElement("option");
+                        opt.value = protocol;
+                        opt.textContent = protocol;
+                        protocolDropdown.appendChild(opt);
+                    });
+                    if (data.length === 1) {
+                        protocolDropdown.value = data[0];
+                    }
+                });
+        }
+    });
+
+    // Local search block-based with highlight
+    let rawDataArea = document.getElementById("rawDataArea");
+    let blocks = Array.from(rawDataArea.querySelectorAll(".block"));
+    let originalHTML = rawDataArea.innerHTML;
+
+    document.getElementById("rawSearch").addEventListener("input", function () {
+        let query = this.value.toLowerCase();
+
+        if (query) {
+            let matchedBlocks = blocks.filter(block =>
+                block.textContent.toLowerCase().includes(query)
+            );
+
+            let highlightedBlocks = matchedBlocks.map(block => {
+                let html = block.innerHTML;
+                let regex = new RegExp("(" + query + ")", "gi");
+                html = html.replace(regex, "<span class='highlight'>$1</span>");
+                return "<div class='block'>" + html + "</div>";
+            });
+
+            rawDataArea.innerHTML = highlightedBlocks.join("<br>");
+            
+        } else {
+            rawDataArea.innerHTML = originalHTML;  // restore all
+        }
+    });
+	
+	
+	
+	    document.getElementById("clearBtn").addEventListener("click", function () {
+	        // clear all inputs inside form
+	        document.querySelectorAll("#filterForm input").forEach(input => input.value = "");
+	        // reload page with no query params
+	        window.location.href = "/raw-data";
+	    });
+	
+	
+
+</script>
+
+</body>
+</html>

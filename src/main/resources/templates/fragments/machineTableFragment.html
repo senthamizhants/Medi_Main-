@@ -1,0 +1,26 @@
+<!-- fragments/machineTableFragment.html -->
+<tbody th:fragment="tableRows(machineTests)">
+  <tr th:each="row : ${machineTests}">
+    <td th:text="${row.locationName}">Location</td>
+    <td th:text="${row.machineName}">Machine</td>
+    <td th:text="${row.testId}">Test ID</td>
+    <td th:text="${row.testName}">Test Name</td>
+    <td>
+      <button type="button" 
+              class="action-btn edit-btn"
+              th:attr="data-id=${row.id},
+                       data-location-id=${row.locationId},
+                       data-machine-id=${row.machineId},
+                       data-test-id=${row.testId},
+                       data-test-name=${row.testName},
+                       data-page=${currentPage}"
+              onclick="editRow(this)">Edit</button>
+    </td>
+    <td>
+      <button type="button"
+              class="action-btn delete-btn"
+              th:attr="data-id=${row.id}"
+              onclick="deleteEntry(this)">Delete</button>
+    </td>
+  </tr>
+</tbody>

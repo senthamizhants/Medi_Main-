@@ -1,0 +1,17 @@
+<!-- fragments/parameterTable.html -->
+<tbody th:fragment="tableRows(lisCodeList)">
+ <tr th:each="row : ${lisCodeList}" th:attr="data-id=${row.id}">
+    <td>
+      <input type="checkbox"
+        name="selectedParams"
+        th:attr="data-param-id=${row.parameterId}, data-param-name=${row.parameterName}"
+        onclick="handleParamSelection(this)" />
+    </td>
+    <td th:text="${row.parameterId}">Parameter ID</td>
+    <td th:text="${row.parameterName}">Parameter Name</td>
+    
+    <td>
+      <button type="button" class="action-btn delete-btn" onclick="deleteRow(this)">Delete</button>
+    </td>
+  </tr>
+</tbody>
