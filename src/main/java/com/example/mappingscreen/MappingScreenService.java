@@ -36,5 +36,28 @@ public class MappingScreenService {
 	    public List<Location> getAllLocations() {
 	        return locationRepo.findAll();
 	    }
+	    public void deleteById(Long id) {
+	    	lisRepo.deleteById(id);
+	    }
+	    
+	    
+	    
+	    @Autowired
+	    private MappingScreenRepository mappingRepo;
+
+	    public MappingScreen saveMapping(MappingScreen mapping) {
+	        boolean exists = mappingRepo.existsByTestIdAndParameterId(
+	                mapping.getTestId(), 
+	                mapping.getParameterId()
+	        );
+
+	        if (exists) {
+	            throw new IllegalStateException("Mapping already exists for TestId=" 
+	                    + mapping.getTestId() + " and ParameterId=" + mapping.getParameterId());
+	        }
+
+	        return mappingRepo.save(mapping);
+	    }
+
 	}
 	

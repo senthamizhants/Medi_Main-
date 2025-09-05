@@ -22,6 +22,8 @@ import com.example.mappingscreen.MappingScreen;
 import com.example.serialport.SerialPortConfig;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.fazecast.jSerialComm.SerialPort;
+import com.example.addmachine.AddMachineService;
+
 
 
 @Controller
@@ -56,7 +58,31 @@ public class LoginController {
         return "ServiceStatus";    
 
     }
+ /*   @GetMapping("/applicationStatus")
+    public String showApplicationStatus() {
 
+        return "ApplicationStatus";    
+
+    }*/
+    
+    
+    @GetMapping("/locations")
+
+    public String showLocation() {
+
+        return "AccessLocationAppStus";    
+
+    }
+    
+    @GetMapping("/application-status")
+
+    public String showApplicationStatus() {
+
+        return "ApplicationStatus";    
+
+    }
+   
+   
 
 
     @PostMapping("/login")
@@ -84,8 +110,6 @@ public class LoginController {
        response.setHeader("Pragma", "no-cache");
        response.setHeader("Expires", "0");
        
-
-
 
        // Load machines for the HomePage
 
@@ -149,17 +173,7 @@ public String addMachine(@ModelAttribute Machine machine) {
 
 
 
-@GetMapping("/applicationStatus")
 
-public String showApplicationStatus(Model model) {
-
-    List<SerialPortConfig> machines = addMachineService.getAllMachines();
-
-    model.addAttribute("machines", machines);
-
-    return "ApplicationStatus";  
-
-}
 
 
 
@@ -474,7 +488,6 @@ public String showMappingDetail() {
 public String showmappingPage() {
 
     return "MappingDetails";  
-
 }
 
 @PostMapping("/mappingForm")

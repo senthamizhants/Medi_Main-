@@ -165,3 +165,27 @@ function editRow(btn) {
 function goBack() {
     window.location.href = "/home";
 }
+
+
+document.getElementById("locationDropdown").addEventListener("change", function() {
+    const locationId = this.value;
+    const machineDropdown = document.getElementById("machineDropdown");
+
+    // Clear old options
+    machineDropdown.innerHTML = '<option value="">-- Select Machine --</option>';
+
+    if(locationId) {
+        // Call backend to get machines
+        fetch('/getMachines/' + locationId)
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(m => {
+                    const opt = document.createElement("option");
+                    opt.value = m.id;
+                    opt.text = m.name;
+                    machineDropdown.add(opt);
+                });
+            })
+            .catch(err => console.error("Error loading machines:", err));
+    }
+});

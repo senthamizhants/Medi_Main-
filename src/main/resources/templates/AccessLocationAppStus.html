@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" th:href="@{/images/Mainicons8.png}" />
+    <title>Application Status by Location</title>
+   
+</head>
+<body>
+ <style>
+ 
+     .page-title {
+            display: inline-block;
+            background-color: #40916c;
+            color: white;
+            width:78%;
+            padding: 6px 50px;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .page-title-container {
+            text-align: center;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        	    .icon-btn {
+     		width: 32px;
+  			height: 32px;
+ 			display: flex;
+ 			margin-top:10px;
+ 			
+ 			gap:10px;
+  			align-items: center;
+  			justify-content: center;
+  			border-radius: 50%;
+  			border: none;
+  			background-color: #40916c;
+  			cursor: pointer;
+  			font-size: 18px;
+  			text-decoration: none;
+  			color: #222;
+ 	 		transition: background-color 0.2s;
+  			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+		}
+
+.icon-btn:hover {
+  background-color: #367f5d;
+}
+
+.menu-buttons {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 10px;
+}
+    .location-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            
+        }
+        .location {
+              display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;       /* Adjust height */
+    width: 150px;        /* Adjust width */
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    margin: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: darkgreen;
+    text-align: center;
+        }
+        .location:hover {
+             box-shadow: 0 0 18px rgba(0,0,0,0.50);
+            /*box-shadow: 0 8px 32px rgba(64,145,108,0.17);*/
+            transform: translateY(-2px) scale(1.03);
+        }
+        .loc-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 10px;
+        }
+        .location-title {
+            font-size: 1.07rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #40916c;
+            
+        }
+        .loc-desc {
+            font-size: 0.98rem;
+            color: #333;
+            margin-bottom: 0;
+        }
+        @media (max-width: 900px) {
+            .location-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            .location {
+                width: 90vw;
+                min-width: 180px;
+            }
+        }
+    </style>
+
+	<div class="page-title-container">
+    <!-- Buttons aligned left -->
+    <div class="menu-buttons">
+        <!-- Home Button -->
+        <a th:href="@{/home}" class="icon-btn" title="Home">
+            <img th:src="@{/images/home.png}" alt="Home" width="20" height="20">
+        </a>
+
+        <!-- Back Button -->
+        <button type="button" class="icon-btn" onclick="history.back()" title="Back">
+            <img th:src="@{/images/backButton.png}" alt="Back" width="20" height="20">
+        </button>
+    </div>
+
+    <!-- Title centered -->
+    <h2 class="page-title">Application Status By Location</h2>
+</div>
+
+    <div class="location-section">
+        
+        <div class="location-cards">
+            <div class="location">
+            <!-- <img src="" alt="Dashboard" class="loc-icon" /> -->
+                <div class="location-title" onclick="goToStatus(2)">Chennai</div>
+                <div class="loc-desc"></div>
+            </div>
+            <div class="location">
+               <!-- <img src="" alt="Setup" class="trend-icon" />-->
+                <div class="location-title"onclick="goToStatus(5)">Bangalore</div>
+                <div class="loc-desc"></div>
+            </div>
+            <div class="location">
+               <!-- <img src="" alt="Mapping" class="trend-icon" />-->
+                <div class="location-title" onclick="goToStatus(3)">Hyderabad</div>
+                <div class="loc-desc"></div>
+            </div>
+            <div class="location">
+               <!-- <img src="" alt="Mapping" class="trend-icon" />-->
+                <div class="location-title" onclick="goToStatus(4)">Mumbai</div>
+                <div class="loc-desc"></div>
+            </div>
+            <div class="location">
+               <!--  <img src="" alt="Mapping" class="trend-icon" /> -->
+                <div class="location-title" onclick="goToStatus(1)">Delhi</div>
+                <div class="loc-desc"></div>
+            </div>
+        </div>
+    </div>
+
+  
+
+<script>
+   function goToStatus(locationId) {
+       window.location.href = "/application-status?locationId=" + locationId;
+   }
+
+</script>
+
+</body>
+</html>

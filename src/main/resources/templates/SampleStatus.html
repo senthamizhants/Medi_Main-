@@ -32,57 +32,42 @@
     </nav>
 
     <!-- ✅ Summary Tab -->
-    <div id="summary" class="tab-content active">
-      
-		<form class="filter-form" th:action="@{/orders#details}" method="get">
-		         
-		           <div class="det-date">
-		               <label for="startDate">From Date</label><br/>
-		               <input type="date" name="startDate" id="startDate" th:value="${startDate777}">
-		           </div>
+   <div id="summary" class="tab-content active">
 
-		           <div class="det-date">
-		               <label for="endDate">To Date</label><br/>
-		               <input type="date" name="endDate" id="endDate" th:value="${endDate777}">
-		           </div>
+    <form class="filter-form" th:action="@{/summary}" method="get">
+        <div class="det-date">
+            <label for="startDate">From Date</label><br/>
+            <input type="date" name="startDate" id="startDate" th:value="${startDate777}">
+        </div>
 
-		           <div classstyle="align-self: flex-start;" class="det-button">
-		               <button type="submit">Go</button>
-		               <button type="button" class="button-link clear" id="clearBtn">Clear</button>
-					
-		           </div>
-		       </form>
-		
+        <div class="det-date">
+            <label for="endDate">To Date</label><br/>
+            <input type="date" name="endDate" id="endDate" th:value="${endDate777}">
+        </div>
 
-        <table class="Summary-table">
-            <thead>
-                <tr>
-                    <th>Process Date</th>
-                    <th>Total Orders</th>
-                    <th>Total Result</th>
-                </tr>
-            </thead>
-			<tbody>
-			    <tr><td>2025-08-01</td><td>120</td><td>115</td></tr>
-			    <tr><td>2025-08-02</td><td>132</td><td>128</td></tr>
-			    <tr><td>2025-08-03</td><td>110</td><td>109</td></tr>
-			    <tr><td>2025-08-04</td><td>150</td><td>148</td></tr>
-			    <tr><td>2025-08-05</td><td>143</td><td>140</td></tr>
-			    <tr><td>2025-08-06</td><td>138</td><td>137</td></tr>
-			    <tr><td>2025-08-07</td><td>129</td><td>126</td></tr>
-			    <tr><td>2025-08-08</td><td>115</td><td>112</td></tr>
-			    <tr><td>2025-08-09</td><td>120</td><td>119</td></tr>
-			    <tr><td>2025-08-10</td><td>122</td><td>121</td></tr>
-			    <tr><td>2025-08-11</td><td>135</td><td>130</td></tr>
-			    <tr><td>2025-08-12</td><td>145</td><td>143</td></tr>
-			    <tr><td>2025-08-13</td><td>118</td><td>116</td></tr>
-			    <tr><td>2025-08-14</td><td>128</td><td>125</td></tr>
-			   
-			</tbody>
+        <div class="det-button">
+            <button type="submit">Go</button>
+            <button type="button" class="clear" id="clearBtn">Clear</button>
+        </div>
+    </form>
 
-            <tbody id="summaryBody"></tbody>
-        </table>
-    </div>
+    <table class="Summary-table">
+        <thead>
+        <tr>
+            <th>Process Date</th>
+            <th>Total Orders</th>
+            <th>Total Results</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="row : ${summaryList}">
+            <td th:text="${row.processDate}"></td>
+            <td th:text="${row.totalOrders}"></td>
+            <td th:text="${row.totalResults}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
     <!-- ✅ Details Tab -->
     <div id="details" class="tab-content">
@@ -597,6 +582,14 @@
 			          document.getElementById("endDate").value = "";
 			          window.location.href = '/orders#details';
 			      });
+			      
+		document.getElementById("clearBtn").addEventListener("click", function () {
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("startDate").value = today;
+    document.getElementById("endDate").value = today;
+    // navigate without query params so controller defaults kick in
+    window.location.href = "/summary";
+  });
 		</script>
 
 </body>

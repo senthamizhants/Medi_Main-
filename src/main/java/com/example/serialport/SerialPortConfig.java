@@ -1,4 +1,4 @@
-    package com.example.serialport;
+package com.example.serialport;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +16,16 @@ public class SerialPortConfig {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MachineId")
-    private Integer machineId;   
+    private Integer machineId; 
+   
+    
+    @Column(name = "LocationID")
+    private Long locationId; 
+    
+    @Column(name = "LOCATIONNAME")
+    private String locationName;
 
+    
     @Column(name = "CommunicationType")
     private String communication;
 
@@ -30,17 +38,28 @@ public class SerialPortConfig {
     @Column(name = "MachineName", nullable = false)
     private String machineName;
 
+    /*
     @Column(name = "BaudRate")
-    private String baudRate;
+    private int baudRate;  */
+
+    @Column(name = "BaudRate")
+    private String baudRate; 
 
     @Column(name = "Parity")
     private String parity;
+    
+    /*   
+    @Column(name = "StopBits")
+    private int stopBits;       // changed from String to int
 
+    @Column(name = "DataBits")
+    private int dataBits;     
+*/
     @Column(name = "StopBits")
     private String stopBits;
 
     @Column(name = "DataBits")
-    private String dataBits;
+    private String dataBits; 
 
     @Column(name = "ProtocolType")
     private String protocolType;
@@ -64,6 +83,16 @@ public class SerialPortConfig {
     private int isActive = 1;   // default 1
 
     // 👉 Getters & Setters
+    public Long getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(Long locationId) {
+        this.locationId = locationId;
+    }
+    public String getLocationName() {  return locationName;  }
+    public void setLocationName(String locationName) { this.locationName = locationName; }
+    
     public Integer getMachineId() { return machineId; }
     public void setMachineId(Integer machineId) { this.machineId = machineId; }
 
@@ -79,17 +108,30 @@ public class SerialPortConfig {
     public String getMachineName() { return machineName; }
     public void setMachineName(String machineName) { this.machineName = machineName; }
 
+    /*   public int getBaudRate() { return baudRate; }
+    public void setBaudRate(int baudRate) { this.baudRate = baudRate; }*/
+  
     public String getBaudRate() { return baudRate; }
-    public void setBaudRate(String baudRate) { this.baudRate = baudRate; }
+    public void setBaudRate(String baudRate) { this.baudRate = baudRate; } 
 
     public String getParity() { return parity; }
+    
     public void setParity(String parity) { this.parity = parity; }
+    /*
+    public int getStopBits() { return stopBits; }
+    
+    
+    public void setStopBits(int stopBits) { this.stopBits = stopBits; }
 
+    public int getDataBits() { return dataBits; }
+    public void setDataBits(int dataBits) { this.dataBits = dataBits; } */
+    
+ 
     public String getStopBits() { return stopBits; }
     public void setStopBits(String stopBits) { this.stopBits = stopBits; }
 
     public String getDataBits() { return dataBits; }
-    public void setDataBits(String dataBits) { this.dataBits = dataBits; }
+    public void setDataBits(String dataBits) { this.dataBits = dataBits; } 
 
     public String getProtocolType() { return protocolType; }
     public void setProtocolType(String protocolType) { this.protocolType = protocolType; }

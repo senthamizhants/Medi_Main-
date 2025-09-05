@@ -99,4 +99,15 @@ public class MachineParameterService {
     }
     
    
+    
+    
+    
+    public List<MachineParameter> getMachinesByLocation(Long locationId) {
+        return machineParameterRepository.findMachinesByLocation(locationId);
+    }
+
+    public List<MachineParameter> getTestsByMachineAndLocation(Long machineId, Long locationId) {
+        return machineParameterRepository.findByMachineIdAndLocationId(machineId, locationId);
+    }
+
 }

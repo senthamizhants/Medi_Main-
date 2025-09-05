@@ -467,6 +467,29 @@ iframe {
 </div>
 
   <div class="form-row">
+  
+  
+   
+
+  <div class="form-field-inline">
+
+           
+
+           <label for="location">Location</label>
+
+    <select th:field="*{locationId}" id="locationId" required>
+
+        <option value="" hidden selected>-- Select Location --</option>
+
+        <option th:each="loc : ${locations}" 
+
+                th:value="${loc.id}" 
+
+                th:text="${loc.location}"></option>
+
+    </select>
+
+</div>
 
         <div class="form-field-inline">
 

@@ -60,6 +60,34 @@
   gap: 10px;
 }
 			
+   
+   .tooltip-cell {
+    position: relative;
+    cursor: pointer;
+}
+
+.tooltip-cell .tooltip-text {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* above the cell */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+}
+
+.tooltip-cell:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
         
 
         /* White Button with Black Text */
@@ -170,9 +198,11 @@
 
             <th>Machine Name</th>
 
-            <th>PORT</th>
+           <!--  <th>PORT</th> -->
+           
 
              <th>Protocol Type</th>
+              <th>Connectivity Type</th>
 
             <th>Active</th>
 
@@ -182,33 +212,26 @@
 
     </thead>
 
-    <tbody>
+    <tbody id="machineTableBody">
+<tr th:each="machine : ${machines}">
+    <td th:text="${machine.machineId}"></td>
+    <td th:text="${machine.machineName}"></td>
+    <td th:text="${machine.protocolType}"></td>
 
-        <tr th:each="machine : ${machines}">
+    <!-- Connectivity with tooltip -->
+    <td class="tooltip-cell">
+        <span th:text="${machine.connectivity}"></span>
+        <span class="tooltip-text" th:text="'Port: ' + ${machine.port}"></span>
+    </td>
 
-        <td th:text="${machine.machineId}"></td>
-
-            <td th:text="${machine.machineName}"></td>
-
-            <td th:text="${machine.port}"></td>
-
-                <td th:text="${machine.protocolType}"></td>
-
-            <td>
-
-                <button type="button" class="btn-white" onclick="toggleConnection(this)">Connect</button>
-
-            </td>
-
-            <td>
-
-                <span class="status-badge disconnected"></span>
-
-            </td>
-
-        </tr>
-
-    </tbody>
+    <td>
+        <button type="button" class="btn-white" onclick="toggleConnection(this)">Connect</button>
+    </td>
+    <td>
+        <span class="status-badge disconnected"></span>
+    </td>
+</tr>
+</tbody>
 
 </table>
 
@@ -242,6 +265,13 @@ function toggleConnection(button) {
 }
 function goBack() {
     window.location.href = "/home";  // Change this to your home page URL
+}
+
+
+
+function showPort(cell) {
+    const portNumber = cell.getAttribute("data-port");
+    alert("Port Number: " + portNumber);
 }
 </script>
 </body>

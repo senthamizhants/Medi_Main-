@@ -32,4 +32,23 @@ public interface MachineParameterRepository extends JpaRepository<MachineParamet
     
     @Query("SELECT DISTINCT new com.example.machineparameter.MachineParameter(m.machineId, m.machineName) FROM MachineParameter m WHERE m.machineId IS NOT NULL")
     List<MachineParameter> findDistinctByMachineIdAndMachineName();
+    
+    @Query("SELECT DISTINCT new com.example.machineparameter.MachineParameter(m.machineId, m.machineName) " +
+    	       "FROM MachineParameter m WHERE m.locationId = :locationId")
+    	List<MachineParameter> findMachinesByLocation(@Param("locationId") Long locationId);
+
+    	List<MachineParameter> findByMachineIdAndLocationId(Long machineId, Long locationId);
+    	
+    	    @Query("SELECT DISTINCT m.machineId, m.machineName FROM MachineParameter m WHERE m.locationId = :locationId")
+    	    List<Object[]> findMachinesByLocation(@Param("locationId") String locationId);
+
+    	
+
+		
+		
+	
+    	
+    	
+
+
 }

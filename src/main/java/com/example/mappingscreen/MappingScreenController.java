@@ -32,7 +32,7 @@ public class MappingScreenController {
     @Autowired
     private LisParameterService lisParameterService;
 
-   
+ /*  
     @GetMapping("/mappingscreen")
     public String showMappingScreen(@RequestParam(value = "machineId", required = false) Long machineId, Model model) {
         model.addAttribute("locations", mappingscreenservice.getAllLocations());
@@ -70,11 +70,11 @@ public class MappingScreenController {
         model.addAttribute("lisCodeList", lisCodeList);
 
         return "mapscreen";
-    }
+    }*/
 
      @PostMapping("/mappingScreen")
     public String saveMappingScreen(@ModelAttribute MappingScreen form, Model model, RedirectAttributes redirectAttributes) {
-    	System.out.println("==== Debugging Submitted Form Data ====");
+   /* 	System.out.println("==== Debugging Submitted Form Data ====");
         System.out.println("TestId: " + form.getTestId());
         System.out.println("TestName: " + form.getTestName());
         System.out.println("ParameterId: " + form.getParameterId());
@@ -82,7 +82,7 @@ public class MappingScreenController {
         System.out.println("LocationId: " + form.getLocationId());
         System.out.println("MachineId: " + form.getMachineid()); 
         System.out.println("Machine ID: " + form.getMachineid());
-        System.out.println("Location ID: " + form.getLocationId());
+        System.out.println("Location ID: " + form.getLocationId()); */
         
         if (form.getTestId() == null || form.getTestName() == null ||
             form.getParameterId() == null || form.getParameterName() == null ||
@@ -137,7 +137,7 @@ public class MappingScreenController {
         redirectAttributes.addFlashAttribute("message", "Mapping saved successfully");
         
         
-        return "redirect:/api/mapping/mappingscreen";
+        return "redirect:/mappingScreen";
     }
 
     
@@ -157,15 +157,26 @@ public class MappingScreenController {
         return machineParameterService.getTestsByMachineId(machineId);
     }
     
+    /*   @DeleteMapping("/deleteParameter/{id}")
+    public String deleteParameterPost(@PathVariable Long id) {
+        mappingscreenservice.deleteById(id);
+        return "redirect:/api/mapping/mappingscreen";  
+    }
+     */
     @DeleteMapping("/deleteParameter/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteParameter(@PathVariable Long id) {
         try {
-            mappingscreenrepository.deleteById(id);
-            return ResponseEntity.ok("Deleted");
+            mappingscreenservice.deleteById(id);
+            return ResponseEntity.ok("Deleted successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("Error deleting: " + e.getMessage());
+            return ResponseEntity.status(500).body("Delete failed");
         }
+    }
+    
+    @GetMapping("/checkMapping/{testId}/{paramId}")
+    @ResponseBody
+    public boolean checkMapping(@PathVariable String testId, @PathVariable String paramId) {
+        return mappingscreenrepository.existsByTestIdAndParameterId(testId, paramId);
     }
 }
